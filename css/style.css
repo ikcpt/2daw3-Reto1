@@ -1,5 +1,96 @@
+/* Reset básico */
 * {
-    margin: 0;
-    padding: 0;
+    margin: 0; 
+    padding: 0; 
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+body {
+    background: #f0f4f8;
+    display: flex;
+    flex-direction: column;
+    align-items: center;  
+    padding: 0 20px 20px 20px; 
+}
+
+/* Estilo común para todas las tablas */
+table {
+    border-collapse: collapse;
+}
+
+/* Tabla de juego */
+#tabla td {
+    width: 60px;
+    height: 60px;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    background-color: #fff;
+    text-align: center;
+    vertical-align: middle;
+    transition: transform 0.2s, background-color 0.2s;
+}
+
+#tabla td img {
+    width: 50px;
+    height: 50px;
+}
+
+/* Hover efecto en tabla de juego */
+#tabla td:hover {
+    transform: scale(1.1);
+}
+
+/* Teclado */
+#teclado td {
+    width: 50px;
+    height: 50px;
+    margin: 3px;
+    border-radius: 6px;
+    background-color: #e0e6ed;
+    text-align: center;
+    vertical-align: middle;
+    transition: all 0.15s ease;
+}
+
+#teclado td img {
+    width: 40px;
+    height: 40px;
+}
+
+/* Hover y click en teclado */
+#teclado td:hover {
+    background-color: #cfd8e3;
+    transform: scale(1.1);
+    cursor: pointer;
+}
+
+#teclado td:active {
+    transform: scale(0.95);
+    background-color: #b0bcd4;
+}
+
+/* Separación entre filas del teclado */
+#teclado tr {
+    height: 60px;
+}
+
+/* Responsivo */
+@media (max-width: 600px) {
+    #tabla td {
+        width: 40px;
+        height: 40px;
+    }
+    #tabla td img {
+        width: 35px;
+        height: 35px;
+    }
+    #teclado td {
+        width: 35px;
+        height: 35px;
+    }
+    #teclado td img {
+        width: 30px;
+        height: 30px;
+    }
+}

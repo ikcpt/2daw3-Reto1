@@ -3,17 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lingo Web</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Lingo</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/header.css">
 </head>
 <body>
-    <header class="cabecera">
-        <h1>LINGO WEB</h1>
-        <img class="logo" src="/img/lingo.png" alt="">
-    </header>
-    <nav class="">
+    <header class="header">
+        <img src="/img/lingo.png" alt="">
+        <h1>Lingo</h1>
 
-    </nav>
-    
+    </header>
+<div id="tabla">
+
+</div>
+    <br>
+
+<div id="teclado">
+
+</div>
+
+    <script>
+        const secreta = "LINGO";
+        let fila = 5;
+        let columna = 5;
+        const contenedor = document.getElementById("tabla");
+        //Imprimir tabla en pantalla
+        let sHTML = `<table>`;
+        for (i = 0; i < fila; i++) {
+            sHTML += `<tr>`;
+                for (j=0; j < columna; j++){
+                    sHTML+= `
+                    <td>
+                        <img id="Num${i}${j}" 
+                             src="/img/Numeros/n0.gif">
+                    </td>
+                    `;
+                }
+            sHTML+= `</tr>`;
+        }
+        sHTML+=`</table>`;
+        contenedor.innerHTML = sHTML;
+        
+
+        let teclas = [
+                        ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
+                        ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'Ñ'],
+                        ['Z', 'X', 'C', 'V', 'B', 'N', 'M']
+                    ];
+        let filasT = 3;
+        let columnasT = 10;
+        let i1 = 0;
+        let j1 = 0;
+        const teclado = document.getElementById("teclado");
+        let tHTML = `<table>`;
+            
+        for (i=0; i<filasT;i++){
+            tHTML += `<tr>`;
+            for (j=0; j<columnasT; j++){
+                tHTML+= `
+                <td>
+                    <img id="Letra${i}${j}" onclick="cambiarPosicion(${i},${j})" src="/Lingo_Web/Letras/Txikiak/${teclas[i][j]}NT.png">
+                </td>
+                `;
+            }
+            tHTML += `</tr>`;
+        }
+        tHTML += `</table>`;
+        teclado.innerHTML = tHTML;
+
+        function cambiarPosicion(i,j) {
+  
+            let posicionCambio = document.getElementById(`Num${i1}${j1}`);
+            let letra = document.getElementById(`Letra${i}${j}`);
+            if (posicionCambio.src == "http://127.0.0.1:5500/Numeros/n0.gif") {
+                posicionCambio.src = letra.src;
+                j1 += 1;
+                if (j1 >= columna) {
+                    
+                    i1+=1;
+                    j1=0;
+                }
+            } else {
+                posicionCambio = document.getElementById(`Num${i1}${j1}`);
+                posicionCambio.src = letra.src;
+                j1 += 1;
+                
+            }
+            
+            console.log(posicionCambio.src);
+
+        }
+
+    </script>
+    <img src="/Lingo_Web/Letras/Txikiak/" alt="">
 </body>
 </html>
