@@ -1,3 +1,97 @@
-.nav {
-    margin-bottom: 1rem;
+:root {
+  --color-nav-fondo: #181818;
+  --color-nav-texto: #eaeaea;
+  --color-nav-btn-principal: #538d4e;
+  --color-nav-btn-principal-hover: #6aaa64;
+  --color-nav-btn-secondario: #3a3a3c;
+  --color-nav-btn-secondario-hover: #505053;
+  --color-activo: #c9b458;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; 
+  width: 100vw;
+  background-color: var(--color-nav-fondo);
+  margin-bottom: 1rem;
+padding-left: 0;
+padding-right: 2rem; /* Sin padding */
+
+}
+.logo-container h1 {
+    visibility: hidden;
+}
+.logo {
+  height: 5rem; /* Ocupar toda la altura del navbar */
+  margin: 0; /* Sin márgenes */
+}
+
+.logo img {
+  height: 5rem;
+  width: auto;
+  object-fit: cover;
+  display: block;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+
+.title {
+  color: var(--color-nav-texto);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.nav-links {
+  display: flex;
+  gap: 1rem;
+}
+
+.nav-links a {
+  color: var(--color-nav-texto);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.nav-links a:hover {
+  color: var(--color-btn-primary-hover);
+}
+
+.nav-links a.activo {
+  color: var(--color-activo);
+  border-bottom: 2px solid var(--color-activo);
+}
+
+
+@media (max-width: 430px) {
+    /* Quitar logo y poner texto */
+    .logo-container h1 {
+        visibility:visible;
+        display: block;
+        color: var(--color-nav-texto);
+        margin-left: 1rem;
+    }
+    .logo-container img {
+        display: none;
+        visibility: hidden;
+    }
+    .logo-container {
+        height: auto;
+    }
+    .navbar {
+        height: 6rem;
+    }
+
 }

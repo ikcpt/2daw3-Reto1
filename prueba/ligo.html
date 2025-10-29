@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Ligo — Demo interactiva</title>
+  <meta name="description" content="Demo de juego tipo Wordle con paleta personalizada (modo oscuro/claro)." />
+  <style>
+    /* ======================
+       Paleta (variables)
+       ====================== */
+    :root{
+      --fondo:#121213;
+      --fondo-claro:#f5f5f7;
+      --texto:#ffffff;
+      --texto-oscuro:#111827;
+      --verde:#6AAA64;
+      --amarillo:#C9B458;
+      --gris:#3A3A3C;
+      --boton:#538D4E;
+      --fondo-sec:#1A1A1B;
+      --card-radius:12px;
+      --gap:10px;
+      --accent: #6aaa64;
+    }
+
+    /* Light theme overrides */
+    .light{
+      --fondo:var(--fondo-claro);
+      --texto:var(--texto-oscuro);
+      --fondo-sec:#ffffff;
+    }
+
+    /* ======================
+       Reset + Layout
+       ====================== */
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0}
+    body{
+      background:linear-gradient(180deg,var(--fondo) 0%, #0f0f10 100%);
+      color:var(--texto);
+      font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;
+      display:flex;align-items:center;justify-content:center;padding:24px;
+    }
+
+    .app{
+      width:100%;max-width:980px;background:rgba(255,255,255,0.02);backdrop-filter: blur(6px);
+      border-radius:18px;padding:28px;box-shadow:0 8px 30px rgba(0,0,0,0.6);
+      display:grid;grid-template-columns:1fr 340px;gap:24px;align-items:start;
+    }
+
+    header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+    h1{font-size:1.6rem;margin:0;letter-spacing:2px}
+    p.lead{margin:6px 0 0 0;color:var(--texto);opacity:0.85}
+
+    /* ======================
+       Left: tablero
+       ====================== */
+    .panel{
+      padding:18px;background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);
+      border-radius:12px;
+    }
+
+    .grid{
+      display:grid;grid-template-rows:repeat(6,64px);gap:10px;justify-items:center;
+    }
+
+    .row{display:grid;grid-template-columns:repeat(5,64px);gap:10px}
+
+    .tile{
+      width:64px;height:64px;border-radius:8px;background:var(--fondo-sec);
+      display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.6rem;letter-spacing:2px;text-transform:uppercase;color:var(--texto);
+      border:2px solid rgba(255,255,255,0.04);
+    }
+
+    /* states */
+    .tile.empty{opacity:0.35}
+    .tile.correct{background:var(--verde);border-color:rgba(0,0,0,0.2);color:var(--texto);transform:scale(1.02)}
+    .tile.present{background:var(--amarillo);border-color:rgba(0,0,0,0.15);color:var(--texto)}
+    .tile.absent{background:var(--gris);border-color:rgba(0,0,0,0.15);color:var(--texto)}
+
+    /* flip animation when revealing */
+    .reveal{animation:flip 600ms ease forwards}
+    @keyframes flip{
+      0%{transform:rotateX(0)}
+      50%{transform:rotateX(90deg);opacity:0.95}
+      100%{transform:rotateX(0);opacity:1}
+    }
+
+    /* Right column: info & keyboard */
+    .side{
+      padding:18px;background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);border-radius:12px;height:100%;display:flex;flex-direction:column;gap:12px
+    }
+
+    .controls{display:flex;gap:10px;align-items:center}
+    .btn{background:var(--boton);color:var(--texto);border:none;padding:8px 12px;border-radius:10px;cursor:pointer;font-weight:600}
+    .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06)}
+
+    .keyboard{display:flex;flex-direction:column;gap:8px;margin-top:6px}
+    .krow{display:flex;gap:8px;justify-content:center}
+    .kkey{min-width:42px;height:54px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:700;cursor:pointer;background:var(--fondo-sec);border:2px solid rgba(255,255,255,0.03);user-select:none}
+    .kkey.wide{min-width:78px}
+    .kkey.correct{background:var(--verde);color:var(--texto)}
+    .kkey.present{background:var(--amarillo);color:var(--texto)}
+    .kkey.absent{background:var(--gris);color:var(--texto)}
+
+    /* footer small */
+    .meta{font-size:0.85rem;color:var(--texto);opacity:0.85}
+
+    /* responsive */
+    @media (max-width:900px){
+      .app{grid-template-columns:1fr;}
+      .side{order:2}
+    }
+
+    /* helper visuals */
+    .example{display:flex;gap:8px;align-items:center}
+    .swatch{width:18px;height:18px;border-radius:4px;border:1px solid rgba(0,0,0,0.2)}
+
+    /* toast */
+    .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:28px;background:rgba(0,0,0,0.6);color:white;padding:8px 14px;border-radius:999px;opacity:0;pointer-events:none}
+    .toast.show{animation:pop 220ms ease forwards}
+    @keyframes pop{from{opacity:0;transform:translate(-50%,8px)}to{opacity:1;transform:translate(-50%,0)}}
+  </style>
+</head>
+<body>
+  <div class="app" id="app">
+    <div class="panel">
+      <header>
+        <div>
+          <h1>Ligo</h1>
+          <p class="lead">Acierta la palabra en 6 intentos. Usa el teclado o haz clic en las teclas.</p>
+        </div>
+        <div class="controls">
+          <button class="btn" id="new">Nuevo</button>
+          <button class="btn ghost" id="toggle">Modo claro</button>
+        </div>
+      </header>
+
+      <section class="grid" id="grid" aria-label="Tablero de Ligo">
+        <!-- 6 x 5 tiles generated por JS -->
+      </section>
+
+    </div>
+
+    <aside class="side">
+      <div class="panel-inner">
+        <div class="meta">Paleta usada:</div>
+        <div class="example" style="margin-top:6px">
+          <div class="swatch" style="background:var(--verde)"></div><div>Correcta</div>
+          <div style="width:12px"></div>
+          <div class="swatch" style="background:var(--amarillo)"></div><div>Presente</div>
+          <div style="width:12px"></div>
+          <div class="swatch" style="background:var(--gris)"></div><div>Ausente</div>
+        </div>
+
+        <div style="margin-top:14px">
+          <strong>Instrucciones</strong>
+          <p style="margin:6px 0 0 0">Escribe una palabra de 5 letras y pulsa ENTER. Las letras se colorearán según su estado.</p>
+        </div>
+
+        <div style="margin-top:10px">
+          <strong>Estado</strong>
+          <div id="status" style="margin-top:8px" class="meta">Jugadas: 0</div>
+        </div>
+
+        <div style="margin-top:8px">
+          <strong>Teclado</strong>
+          <div class="keyboard" id="keyboard">
+            <div class="krow" data-row>
+              <div class="kkey">Q</div><div class="kkey">W</div><div class="kkey">E</div><div class="kkey">R</div><div class="kkey">T</div><div class="kkey">Y</div><div class="kkey">U</div><div class="kkey">I</div><div class="kkey">O</div><div class="kkey">P</div>
+            </div>
+            <div class="krow" data-row>
+              <div class="kkey">A</div><div class="kkey">S</div><div class="kkey">D</div><div class="kkey">F</div><div class="kkey">G</div><div class="kkey">H</div><div class="kkey">J</div><div class="kkey">K</div><div class="kkey">L</div>
+            </div>
+            <div class="krow" data-row>
+              <div class="kkey wide" data-enter>Enter</div>
+              <div class="kkey">Z</div><div class="kkey">X</div><div class="kkey">C</div><div class="kkey">V</div><div class="kkey">B</div><div class="kkey">N</div><div class="kkey">M</div>
+              <div class="kkey wide" data-del>Del</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </aside>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    /* ======================
+       Lógica simple del juego
+       ====================== */
+    const SECRET_WORDS = ["LIGOS","AMORO","PLANO","NUBES","PIANO","BRISA","SONAR","FUEGO","GATOS","RAPID"];
+    let secret = '';
+    let row = 0; // 0..5
+    let col = 0; // 0..4
+    const grid = document.getElementById('grid');
+    const status = document.getElementById('status');
+    const toast = document.getElementById('toast');
+    const keyboard = document.getElementById('keyboard');
+
+    function pickSecret(){
+      secret = SECRET_WORDS[Math.floor(Math.random()*SECRET_WORDS.length)];
+      // for demo, keep uppercase
+      secret = secret.toUpperCase();
+      console.log('secret:',secret);
+    }
+
+    function makeGrid(){
+      grid.innerHTML = '';
+      for(let r=0;r<6;r++){
+        const rowEl = document.createElement('div');rowEl.className='row';
+        for(let c=0;c<5;c++){
+          const t = document.createElement('div');t.className='tile empty';t.dataset.r=r;t.dataset.c=c;t.textContent='';
+          rowEl.appendChild(t);
+        }
+        grid.appendChild(rowEl);
+      }
+      row = 0; col = 0;
+      status.textContent = 'Jugadas: 0';
+      resetKeys();
+    }
+
+    function resetKeys(){
+      document.querySelectorAll('.kkey').forEach(k=>{k.classList.remove('correct','present','absent')});
+    }
+
+    function showToast(msg){
+      toast.textContent = msg;toast.classList.add('show');
+      setTimeout(()=>toast.classList.remove('show'),1400);
+    }
+
+    function putLetter(ch){
+      if(row>5) return;
+      const tile = document.querySelector(`.tile[data-r='${row}'][data-c='${col}']`);
+      if(!tile) return;
+      tile.textContent = ch;tile.classList.remove('empty');
+      col = Math.min(4,col+1);
+    }
+
+    function delLetter(){
+      if(col===0){
+        const first = document.querySelector(`.tile[data-r='${row}'][data-c='0']`);
+        if(first && first.textContent==='') return;
+      }
+      col = Math.max(0,col-1);
+      const tile = document.querySelector(`.tile[data-r='${row}'][data-c='${col}']`);
+      if(tile){tile.textContent='';tile.classList.add('empty')}
+    }
+
+    function submit(){
+      if(row>5) return;
+      // read word
+      const tiles = [...document.querySelectorAll(`.tile[data-r='${row}']`)];
+      const word = tiles.map(t=>t.textContent||'').join('');
+      if(word.length<5){showToast('Faltan letras');return}
+
+      // evaluate
+      const res = Array(5).fill('absent');
+      const secretArr = secret.split('');
+      const wordArr = word.split('');
+
+      // first pass: correct
+      for(let i=0;i<5;i++){
+        if(wordArr[i]===secretArr[i]){res[i]='correct';secretArr[i]=null;}
+      }
+      // second pass: present
+      for(let i=0;i<5;i++){
+        if(res[i]==='correct') continue;
+        const idx = secretArr.indexOf(wordArr[i]);
+        if(idx>=0){res[i]='present';secretArr[idx]=null}
+      }
+
+      // reveal with animation
+      tiles.forEach((t,i)=>{
+        t.classList.add('reveal');
+        setTimeout(()=>{
+          t.classList.remove('reveal');
+          t.classList.remove('empty');
+          t.classList.add(res[i]);
+        }, i*150);
+      });
+
+      // update keyboard
+      setTimeout(()=>{
+        tiles.forEach((t,i)=>{
+          const ch = t.textContent;
+          const key = [...document.querySelectorAll('.kkey')].find(k=>k.textContent===ch);
+          if(!key) return;
+          // priority: correct > present > absent
+          if(res[i]==='correct'){key.classList.remove('present','absent');key.classList.add('correct')}
+          else if(res[i]==='present' && !key.classList.contains('correct')){key.classList.add('present')}
+          else if(res[i]==='absent' && !key.classList.contains('correct') && !key.classList.contains('present')){key.classList.add('absent')}
+        });
+      }, 800);
+
+      row++; col=0;
+      status.textContent = `Jugadas: ${row}`;
+
+      if(word===secret){
+        setTimeout(()=>showToast('¡Enhorabuena! Has acertado.'),900);
+        row=6; // terminar
+      } else if(row>=6){
+        setTimeout(()=>showToast('Juego terminado. La palabra era: '+secret),900);
+      }
+    }
+
+    // keyboard clicks
+    keyboard.addEventListener('click', e=>{
+      const key = e.target.closest('.kkey'); if(!key) return;
+      const ch = key.textContent;
+      if(key.dataset.enter!==undefined){submit();return}
+      if(key.dataset.del!==undefined){delLetter();return}
+      if(ch.length===1){putLetter(ch)}
+    });
+
+    // physical keyboard
+    window.addEventListener('keydown', e=>{
+      if(e.key==='Enter'){submit();return}
+      if(e.key==='Backspace'){delLetter();return}
+      const k = e.key.toUpperCase(); if(k.length===1 && k>='A' && k<='Z') putLetter(k);
+    });
+
+    document.getElementById('new').addEventListener('click', ()=>{pickSecret();makeGrid();});
+    document.getElementById('toggle').addEventListener('click', ()=>{
+      document.body.classList.toggle('light');
+      const on = document.body.classList.contains('light');
+      document.getElementById('toggle').textContent = on? 'Modo oscuro' : 'Modo claro';
+    });
+
+    // init
+    pickSecret();makeGrid();
+
+    // small accessibility: focus trap to keyboard clicks
+    document.getElementById('keyboard').querySelectorAll('.kkey').forEach(k=>{k.tabIndex=0;k.addEventListener('keydown',ev=>{if(ev.key==='Enter')k.click()})});
+  </script>
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    .focus-aside {
+    /* Posicionamiento y Tamaño */
+    width: 280px; /* Ancho fijo para el panel lateral */
+    padding: 1.5rem;
+    
+    /* Colores y Borde (Usando tus variables) */
+    background-color: var(--color-nav-fondo); /* Fondo oscuro como el nav */
+    color: var(--color-nav-texto); /* Texto claro */
+    border-radius: 8px; /* Bordes redondeados */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4); /* Sombra suave */
+    
+    /* Separación del contenido principal */
+    margin-top: 2rem; 
+    margin-bottom: 2rem;
+}
+
+.focus-aside h3 {
+    /* Estilo del título */
+    color: var(--color-activo); /* Título en color activo */
+    margin-bottom: 1rem;
+    border-bottom: 1px solid var(--color-activo);
+    padding-bottom: 0.5rem;
+}
+
+/* Estilo para los elementos internos */
+.aside-content p {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin-bottom: 1.25rem;
+}
+
+/* Estilo del Botón de Llamada a la Acción */
+.aside-btn {
+    display: block; /* Ocupa todo el ancho */
+    text-align: center;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1.5rem;
+    
+    background-color: var(--color-nav-btn-principal); /* Color principal del botón */
+    color: white; /* Texto blanco en el botón */
+    text-decoration: none;
+    font-weight: 600;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+}
+
+.aside-btn:hover {
+    background-color: var(--color-nav-btn-principal-hover);
+}
+
+/* Estilo de la Lista de Enlaces */
+.aside-links {
+    list-style: none; /* Eliminar viñetas por defecto */
+    padding: 0;
+}
+
+.aside-links li a {
+    display: block;
+    padding: 0.4rem 0;
+    color: var(--color-nav-texto);
+    text-decoration: none;
+    font-size: 0.9rem;
+    border-bottom: 1px dotted var(--color-nav-btn-secondario); /* Línea punteada sutil */
+    transition: color 0.2s ease;
+}
+
+.aside-links li:last-child a {
+    border-bottom: none; /* Quitar el borde al último elemento */
+}
+
+.aside-links li a:hover {
+    color: var(--color-activo); /* El hover usa el color activo */
+}
+</style>
+<body>
+    <aside class="focus-aside">
+    <h3>🔍 Enfoque del Día</h3>
+    
+    <div class="aside-content">
+        <p>
+            ¡No te pierdas nuestra nueva sección! 
+            Explora las últimas tendencias y artículos.
+        </p>
+        
+        <a href="#" class="aside-btn">Ver Más Novedades</a>
+        
+        <ul class="aside-links">
+            <li><a href="#">Archivos Antiguos</a></li>
+            <li><a href="#">Sobre el Autor</a></li>
+            <li><a href="#">Contáctanos</a></li>
+        </ul>
+    </div>
+</aside>
+</body>
+</html>
