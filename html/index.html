@@ -11,13 +11,16 @@
     <header class="header">
         <img src="/img/lingo.png" alt="">
         <h1>Lingo</h1>
-
     </header>
+    <nav class="nav">
+        <button><a href="">Inicio</a></button>
+        <button><a href="">Perfil</a></button>
+        <button><a href=""></a></button>
+    </nav>
 <div id="tabla">
 
 </div>
     <br>
-
 <div id="teclado">
 
 </div>
@@ -62,7 +65,7 @@
             for (j=0; j<columnasT; j++){
                 tHTML+= `
                 <td>
-                    <img id="Letra${i}${j}" onclick="cambiarPosicion(${i},${j})" src="/Lingo_Web/Letras/Txikiak/${teclas[i][j]}NT.png">
+                    <img id="Letra${i}${j}" onclick="cambiarPosicion(${i},${j})" src="/img/Letras/Txikiak/${teclas[i][j]}NT.png">
                 </td>
                 `;
             }
