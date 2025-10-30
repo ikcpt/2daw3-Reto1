@@ -1,0 +1,86 @@
+:root {
+    --color-teclas-teclado: #ffffff;
+    --color-teclas-teclado-reaccion: #cfd8e3;
+}
+
+/* Estilo común para todas las tablas */
+table {
+    border-collapse: collapse;   
+}
+
+.tablero {
+    border-radius: 10px;
+}
+
+/* Tabla de juego */
+#tabla td {
+    width: 60px;
+    height: 60px;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    background-color: #fff;
+    text-align: center;
+    vertical-align: middle;
+    transition: all 0.15s ease;
+    display: table-cell;
+    padding: 0;
+}
+
+#tabla td img {
+    width: 50px;
+    height: 50px;
+}
+
+/* Hover efecto en tabla de juego */
+#tabla td:hover {
+    transform: scale(1.1);
+}
+
+/* Teclado */
+#teclado table {
+    margin: 0 auto;
+    border-collapse: separate;
+    border-spacing: 3px;
+}
+
+#teclado td {
+    width: 50px;
+    height: 50px;
+    border-radius: 6px;
+    background-color: var(--color-teclas-teclado);
+    text-align: center;
+    vertical-align: middle;
+    transition: all 0.15s ease;
+}
+
+#teclado td img {
+    width: 40px;
+    height: 40px;
+}
+
+/* Hover y click en teclado */
+#teclado td:hover {
+    background-color: var(--color-teclas-teclado-reaccion);
+    transform: scale(1.1);
+    cursor: pointer;
+}
+
+#teclado td:active {
+    transform: scale(0.95);
+    background-color: #b0bcd4;
+}
+
+/* Separación entre filas del teclado */
+#teclado tr {
+    height: 60px;
+}
+
+
+
+
+
+.tabla {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(0px, 1fr));
+    width: 100px;
+}

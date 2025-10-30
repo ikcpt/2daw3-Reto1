@@ -76,22 +76,6 @@ padding-right: 2rem; /* Sin padding */
 
 
 @media (max-width: 430px) {
-    /* Quitar logo y poner texto */
-    .logo-container h1 {
-        visibility:visible;
-        display: block;
-        color: var(--color-nav-texto);
-        margin-left: 1rem;
-    }
-    .logo-container img {
-        display: none;
-        visibility: hidden;
-    }
-    .logo-container {
-        height: auto;
-    }
-    .navbar {
-        height: 6rem;
-    }
+
 
 }

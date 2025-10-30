@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leer Ofertas JSON con Async</title>
+</head>
+<body>
+    <h1>Lector de Ofertas JSON</h1>
+    <script>
+        let Ofertas;
+        async function leerOfertas() {
+            try {
+                const response = await fetch('OF_OFERTAS_ODE_JSON.json');
+                if (!response.ok) {
+                    throw new Error(`Error HTTP: ${response.status}`);
+                }
+                Ofertas = await response.json();
+             } catch (error) {
+                console.error('Error al leer el archivo JSON:', error);
+            }
+        }
+
+        // Ejecutar automáticamente al cargar la página
+        leerOfertas().then(() => {
+            if (Ofertas) {
+                console.log('JSON listo para usar');
+                //mostrarDatos();
+            }
+        });
+    </script>
+</body>
+</html>

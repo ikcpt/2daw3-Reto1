@@ -1,114 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Lingo</title>
-    <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="/css/nav.css">
-    <link rel="stylesheet" href="/css/footer.css">
-</head>
-<body>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/nav.css" />
+    <link rel="stylesheet" href="../css/footer.css" />
+    <link rel="stylesheet" href="../css/lingo.css" />
+    <link rel="stylesheet" href="../css/vistaMovil.css" />
+  </head>
+  <body>
     <nav class="navbar">
-        <div class="logo-container">
-            <img src="/img/Lingo.png" alt="Lingo logo" class="logo">
-            <h1>Lingo</h1>
-        </div>
-        <div class="nav-links">
-            <a href="../html/index.html" class="activo">Inicio</a>
-            <a href="../html/perfil.html">Perfil</a>
-            <a href="../html/estadisticas.html">Estadísticas</a>
-        </div>
+      <div class="logo-container">
+        <img src="/img/Lingo.png" alt="Lingo logo" class="logo" />
+        <h1>Lingo</h1>
+      </div>
+      <div class="nav-links">
+        <a href="../html/index.html" class="activo">Inicio</a>
+        <a href="../html/perfil.html">Perfil</a>
+        <a href="../html/estadisticas.html">Estadísticas</a>
+      </div>
     </nav>
-<div id="tabla">
+    <div class="tabla">
+      <div class="Celda" id="celda1">A</div>
+      <div class="Celda" id="celda2">A</div>
+      <div class="Celda">A</div>
+      <div class="Celda">A</div>
+      <div class="Celda">A</div>
+      <div class="Celda">A</div>
+      <div class="Celda">A</div>
+    </div>
+    <br />
+    <div id="teclado"></div>
 
-</div>
-    <br>
-<div id="teclado">
+    <section class="aside">
+      <ul class="instrucciones">
+        <li><span id="verde">Verde</span> = Letra correcta.</li>
+        <li><span id="amarilla">Amarillo</span> = Letra mal colocada.</li>
+        <li><span id="gris">Gris</span> = Letra incorrecta.</li>
+      </ul>
+    </section>
 
-</div>
+    <footer class="footer">
+      <p>Footer</p>
+    </footer>
 
-<section class="aside">
-    <p>Esto es el aside, aqui iran, las instrucciones del juego, es decir que significa cada  color de cada letra y de que va el juego </p>
-</section>
-
-<footer class="footer">
-    <p>Footer</p>
-</footer>
-
-    <script>
-        const secreta = "LINGO";
-        let fila = 5;
-        let columna = 5;
-        const contenedor = document.getElementById("tabla");
-        //Imprimir tabla en pantalla
-        let sHTML = `<table>`;
-        for (i = 0; i < fila; i++) {
-            sHTML += `<tr>`;
-                for (j=0; j < columna; j++){
-                    sHTML+= `
-                    <td>
-                        <img id="Num${i}${j}" 
-                             src="/img/Numeros/n0.gif">
-                    </td>
-                    `;
-                }
-            sHTML+= `</tr>`;
-        }
-        sHTML+=`</table>`;
-        contenedor.innerHTML = sHTML;
-        
-
-        let teclas = [
-                        ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
-                        ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'Ñ'],
-                        ['Z', 'X', 'C', 'V', 'B', 'N', 'M']
-                    ];
-        let filasT = 3;
-        let columnasT = 10;
-        let i1 = 0;
-        let j1 = 0;
-        const teclado = document.getElementById("teclado");
-        let tHTML = `<table>`;
-            
-        for (i=0; i<filasT;i++){
-            tHTML += `<tr>`;
-            for (j=0; j<columnasT; j++){
-                tHTML+= `
-                <td>
-                    <img id="Letra${i}${j}" onclick="cambiarPosicion(${i},${j})" src="/img/Letras/Txikiak/${teclas[i][j]}NT.png">
-                </td>
-                `;
-            }
-            tHTML += `</tr>`;
-        }
-        tHTML += `</table>`;
-        teclado.innerHTML = tHTML;
-
-        function cambiarPosicion(i,j) {
-  
-            let posicionCambio = document.getElementById(`Num${i1}${j1}`);
-            let letra = document.getElementById(`Letra${i}${j}`);
-            if (posicionCambio.src == "http://127.0.0.1:5500/Numeros/n0.gif") {
-                posicionCambio.src = letra.src;
-                j1 += 1;
-                if (j1 >= columna) {
-                    
-                    i1+=1;
-                    j1=0;
-                }
-            } else {
-                posicionCambio = document.getElementById(`Num${i1}${j1}`);
-                posicionCambio.src = letra.src;
-                j1 += 1;
-                
-            }
-            
-            console.log(posicionCambio.src);
-
-        }
-
-    </script>
-    <img src="/Lingo_Web/Letras/Txikiak/" alt="">
-</body>
+    <!-- <script src="../js/lingo.js"></script> -->
+  </body>
 </html>

@@ -1,0 +1,64 @@
+:root {
+  --color-nav-fondo: #181818;
+  --color-nav-texto: #eaeaea;
+  --color-nav-btn-principal: #538d4e;
+  --color-nav-btn-principal-hover: #6aaa64;
+  --color-nav-btn-secondario: #3a3a3c;
+  --color-nav-btn-secondario-hover: #505053;
+  --color-activo: #c9b458;
+  --color-teclas-teclado: #ffffff;
+  --color-teclas-teclado-reaccion: #cfd8e3;
+  --color-letra-correcta: #538d4e;
+  --color-letra-mal-colocada: #c9af3a;
+  --color-letra-incorrecta: rgb(128, 128, 128);
+}
+@media (max-width: 430px) {
+  #tabla td {
+    width: 60px;
+    height: 60px;
+  }
+  #tabla td img {
+    width: 35px;
+    height: 35px;
+  }
+  #teclado td {
+    width: 35px;
+    height: 35px;
+  }
+
+  /* Quitar logo y poner texto */
+  .logo-container h1 {
+    visibility: visible;
+    display: block;
+    color: var(--color-nav-texto);
+    margin-left: 1rem;
+  }
+  .logo-container img {
+    display: none;
+    visibility: hidden;
+  }
+  .logo-container {
+    height: auto;
+  }
+  .navbar {
+    height: 6rem;
+  }
+
+  .aside {
+    margin-top: 1rem;
+    padding: 5.4em;
+    width: 100vw;
+    background-color: #e8e8e8;
+    
+  }
+
+    .aside #verde{
+        color: var(--color-letra-correcta);
+    }
+    .aside #amarilla{
+        color: var(--color-letra-mal-colocada);
+    }
+    .aside #gris{
+        color: var(--color-letra-incorrecta);
+    }
+}

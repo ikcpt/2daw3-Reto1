@@ -1,11 +1,16 @@
+:root {
+   --color-fondo: #181818;
+  --color-texto: #eaeaea;
+
+}
 footer {
     position: fixed;     
     bottom: 0;    
     left: 0; 
     right: 0; 
     z-index: 1000;     
-    background-color: #333; 
-    color: white; 
+    background-color: var(--color-fondo); 
+    color: var(--color-texto); 
     padding: 1rem; 
     text-align: center; 
 }
