@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="../css/footer.css" />
     <link rel="stylesheet" href="../css/lingo.css" />
     <link rel="stylesheet" href="../css/vistaMovil.css" />
+    <link rel="stylesheet" href="../css/teclado.css" />
   </head>
   <body>
     <nav class="navbar">
@@ -20,53 +21,34 @@
         <a href="../html/index.html" class="activo">Inicio</a>
         <a href="../html/perfil.html">Perfil</a>
         <a href="../html/estadisticas.html">Estadísticas</a>
+        <a href="../html/iniciarSesion.html">Iniciar sesion</a>
       </div>
     </nav>
-    <div class="main-content">
-      <div class="tabla">
-        <div class="Celda">1</div>
-        <div class="Celda">2</div>
-        <div class="Celda">3</div>
-        <div class="Celda">4</div>
-        <div class="Celda">5</div>
-        <div class="Celda">6</div>
-        <div class="Celda">7</div>
-        <div class="Celda">8</div>
-        <div class="Celda">9</div>
-        <div class="Celda">10</div>
-        <div class="Celda">11</div>
-        <div class="Celda">12</div>
-        <div class="Celda">13</div>
-        <div class="Celda">14</div>
-        <div class="Celda">15</div>
-        <div class="Celda">16</div>
-        <div class="Celda">17</div>
-        <div class="Celda">18</div>
-        <div class="Celda">19</div>
-        <div class="Celda">20</div>
-        <div class="Celda">21</div>
-        <div class="Celda">22</div>
-        <div class="Celda">23</div>
-        <div class="Celda">24</div>
-        <div class="Celda">25</div>
+    <div class="contenedor-juego">
+      <div class="Juego-columna">
+        <div id="tabla"></div>
+        <div id="teclado"></div>
       </div>
+
+      <section class="aside">
+        <ul class="instrucciones">
+          <li><span id="verde">Verde</span> = Letra correcta.</li>
+          <li><span id="amarilla">Amarillo</span> = Letra mal colocada.</li>
+          <li><span id="gris">Gris</span> = Letra incorrecta.</li>
+        </ul>
+      </section>
     </div>
-
-    <br />
-    <div id="teclado"></div>
-
-    <section class="aside">
-      <ul class="instrucciones">
-        <li><span id="verde">Verde</span> = Letra correcta.</li>
-        <li><span id="amarilla">Amarillo</span> = Letra mal colocada.</li>
-        <li><span id="gris">Gris</span> = Letra incorrecta.</li>
-      </ul>
-    </section>
 
     <footer class="footer">
       <p>Footer</p>
     </footer>
 
-    <!-- <script src="../js/lingo.js"></script> -->
+    <div class="tablero">
+      <div class="fila1"></div>
+    </div>
+    <div class="textoFinal">
+
+    </div>
+    <script src="../js/lingo.js"></script>
   </body>
 </html>

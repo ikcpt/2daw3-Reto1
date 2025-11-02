@@ -12,7 +12,23 @@
   --color-letra-mal-colocada: #c9af3a;
   --color-letra-incorrecta: rgb(128, 128, 128);
 }
-@media (max-width: 430px) {
+@media (max-width: 700px) {
+  body {
+    padding-left: 10px;
+    padding-right: 10px;
+    box-sizing: border-box; /* Importante para que el padding funcione bien */
+    overflow-x: hidden; /* Evita el scroll horizontal */
+  }
+
+.tablero,
+  #teclado,
+  .aside {
+    width: 100%; 
+    max-width: none; /* Anula los max-width de escritorio */
+    margin-left: auto;
+    margin-right: auto;
+  }
+
   #tabla td {
     width: 60px;
     height: 60px;
@@ -24,6 +40,15 @@
   #teclado td {
     width: 35px;
     height: 35px;
+  }
+  .Celda {
+    padding: 1.5rem; /* Un poco menos que los 2rem de escritorio */
+    font-size: 1.2em;
+  }
+
+  .tecla {
+    padding: 15px 5px; /* Más bajo para que no sean tan altas */
+    font-size: 1em;
   }
 
   /* Quitar logo y poner texto */
@@ -42,14 +67,23 @@
   }
   .navbar {
     height: 6rem;
+    width: 100vw;
+  }
+
+.contenedor-juego {
+    /* En pantallas pequeñas, volvemos a ponerlo en columna */
+    flex-direction: column;
+    align-items: center; /* Centra todo */
+  }
+
+  .Juego-columna {
+    width: 100%; /* Ocupa todo el ancho */
   }
 
   .aside {
-    margin-top: 1rem;
-    padding: 5.4em;
-    width: 100vw;
-    background-color: #e8e8e8;
-    
+    width: 100%;
+    max-width: 600px; /* Que tenga el mismo ancho máx. que el teclado */
+    position: static; /* Quitamos el 'sticky' */
   }
 
     .aside #verde{
@@ -61,4 +95,11 @@
     .aside #gris{
         color: var(--color-letra-incorrecta);
     }
+    .instrucciones {
+    /* Quita los puntos negros de la lista */
+    list-style-type: none; 
+    
+    /* Quita el espacio extra que las listas <ul> traen por defecto */
+    padding-left: 0; 
+}
 }

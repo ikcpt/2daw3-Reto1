@@ -1,24 +1,117 @@
 :root {
-    --color-teclas-teclado: #ffffff;
-    --color-teclas-teclado-reaccion: #cfd8e3;
+  --color-teclas-teclado: #ffffff;
+  --color-teclas-teclado-reaccion: #cfd8e3;
 }
-
 
 .main-content {
-    width: 50%;
+  width: 100%;
 }
 
-.tabla {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
-    margin: 0 auto;
-    gap: 5px;
+.tablero {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px; /* Reducimos un poco el 'gap' */
+  
+  /* --- CAMBIO PRINCIPAL --- */
+  max-width: 400px; /* Bájalo de 600px a 400px (o lo que prefieras) */
+  
+  margin: 20px auto; 
+}
+
+.Celda {
+  aspect-ratio: 1 / 1; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  background-color: var(--color-teclas-teclado);
+  border-radius: 1rem;
+  font-size: 1.2em; /* También reducimos la fuente un poco */
+  font-weight: bold;
+}
+
+.contenedor-juego {
+  display: flex; /* ¡La magia! Pone los hijos uno al lado del otro */
+  justify-content: center; /* Centra las columnas */
+  align-items: flex-start; /* Alinea arriba */
+  gap: 24px; /* Espacio entre el juego y la tarjeta */
+  
+  /* Centra todo el bloque en la página */
+  width: 100%;
+  max-width: 1100px; /* Ancho máximo (juego + tarjeta) */
+  margin: 20px auto; /* Centrado automático */
+  padding: 0 20px; /* Espacio en los bordes */
+  box-sizing: border-box;
+}
+
+/* --- 2. La Columna del Juego --- */
+.Juego-columna {
+  flex: 3; /* Que ocupe 3 partes del espacio (más grande) */
+  /* Esta columna simplemente contiene el tablero y el teclado,
+     que ya tienen sus propios estilos para centrarse */
+}
+
+/* --- 3. La Tarjeta de Instrucciones (tu .aside) --- */
+.aside {
+  flex: 1; /* Que ocupe 1 parte del espacio (más pequeña) */
+  
+  /* Aquí la convertimos en "Tarjeta" */
+  background-color: #3a3a3c; /* Un fondo oscuro (como el teclado) */
+  color: #f0f0f0; /* Texto claro */
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  
+  /* Para que se quede "fija" mientras bajas (opcional, pero mola) */
+  position: sticky;
+  top: 20px; 
+}
+
+/* --- 4. Estilos para la lista de instrucciones --- */
+.instrucciones {
+  list-style: none; /* Quita los puntos de la lista */
+  padding: 0;
+  margin: 0;
+}
+
+.instrucciones li {
+  margin-bottom: 12px; /* Espacio entre líneas */
+  font-size: 0.9em;
+}
+
+.instrucciones li:last-child {
+  margin-bottom: 0;
+}
+
+/* Estilos para los colores (ya los tenías) */
+#verde {
+  color: #6aaa64;
+  font-weight: bold;
+}
+#amarilla {
+  color: #c9b458;
+  font-weight: bold;
+}
+#gris {
+  color: #818384;
+  font-weight: bold;
+}
+
+.deshabilitado {
+    pointer-events: none;
+    opacity: 0.7;
+}
+/* .tablero {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  margin: 0 auto;
+
+  margin: 0 auto;
+  gap: 8px;
 }
 .Celda {
-    padding: 2rem;
-    background-color: var(--color-teclas-teclado);
-    border-radius: 1rem;
-}
+  padding: 2rem;
+  background-color: var(--color-teclas-teclado);
+  border-radius: 1rem;
+  text-align: center;
+} */

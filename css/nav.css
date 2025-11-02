@@ -17,7 +17,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between; 
-  width: 100vw;
+  /* width: 100vw; */
   background-color: var(--color-nav-fondo);
   margin-bottom: 1rem;
 padding-left: 0;
@@ -72,10 +72,4 @@ padding-right: 2rem; /* Sin padding */
 .nav-links a.activo {
   color: var(--color-activo);
   border-bottom: 2px solid var(--color-activo);
-}
-
-
-@media (max-width: 430px) {
-
-
 }

@@ -1,0 +1,88 @@
+:root{
+    --fondo-teclado:#3a3a3c;
+    --color-tecla-letra: #565658;
+    --color-tecla-letra-hover: #6b6b6b;
+    --color-tecla-especial :#818384;
+    --color-tecla-especial-hover: #919394;
+}
+
+#teclado {
+  display: flex;
+  flex-direction: column;
+  gap: 8px; /* Reducimos el 'gap' */
+  
+  width: 100%;
+  
+  /* --- CAMBIO PRINCIPAL --- */
+  max-width: 600px; /* Bájalo de 800px a 600px (o lo que prefieras) */
+  
+  margin: 20px auto;
+  padding: 10px; /* Menos padding */
+  
+  background-color: #3a3a3c;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  box-sizing: border-box;
+}
+
+
+.teclado-fila {
+  display: grid;
+  gap: 8px;
+}
+
+.fila-0 {
+  grid-template-columns: repeat(10, 1fr);
+}
+
+.fila-1 {
+  grid-template-columns: repeat(10, 1fr);
+  width: 95%;
+  margin: 0 auto;
+}
+
+.fila-2 {
+  grid-template-columns: 1.5fr repeat(7, 1fr) 1.5fr;
+}
+
+.tecla {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--color-tecla-letra);
+  color: white;
+  font-weight: bold;
+  font-size: 1.2em;
+  font-family: Arial, sans-serif;
+  text-transform: uppercase;
+  
+  border-radius: 6px;
+  padding: 15px 8px; /* Bájalo de 20px a 15px */
+  font-size: 1.1em;
+  cursor: pointer;
+  user-select: none;
+  
+  border: 1px solid #444;
+  border-bottom: 3px solid #444;
+  
+  transition: all 0.1s ease;
+}
+
+.tecla:hover {
+  background-color: var(--color-tecla-letra-hover);
+}
+
+.tecla:active {
+  background-color: #4a4a4c;
+  border-bottom: 1px solid #444;
+  transform: translateY(2px);
+}
+
+.tecla-especial {
+  background-color: var(--color-tecla-especial);
+  font-size: 0.9em;
+}
+
+.tecla-especial:hover {
+  background-color: var(--color-tecla-especial-hover);
+}
