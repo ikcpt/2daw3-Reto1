@@ -10,7 +10,6 @@ let columna = 5;
 const contenedor = document.getElementById("tabla");
 const teclado = document.getElementById("teclado");
 let textoFinal = document.getElementById("textoFinal"); // Lo muevo aquí desde finDelJuego para que sea global
-
 // --- Estado del juego ---
 let i1 = 0; // Fila actual
 let j1 = 0; // Columna actual
@@ -18,9 +17,12 @@ let juegoTerminado = false;
 let secreta = "";
 
 // --- Variables para temporizadores ---
+const Temporizador = document.getElementById("temporizador-fila");
 let tiempoInicio = 0; // Para el contador total de la partida
 let contadorFila = null; // Para el contador de cada intento
-const LIMITE_TIEMPO_MS = 30000; // Límite de 30 segundos
+const LIMITE_TIEMPO_MS = 2000; // Límite de 30 segundos
+let segundosRestantes = 0;
+let contadorVisual = null;
 
 // --- Teclas del teclado en pantalla ---
 let teclas = [
@@ -104,15 +106,32 @@ function tiempoFinalUsuario() {
  */
 function empezarTempFila() {
   clearTimeout(contadorFila); // Limpia cualquier temporizador anterior
+  clearInterval(contadorVisual);
+
+  segundosRestantes = LIMITE_TIEMPO_MS / 1000;
+  Temporizador.innerHTML = segundosRestantes;
+  
   contadorFila = setTimeout(() => {
     tiempoDeIntentoAgotado(); // Llama a esta función si se acaba el tiempo
   }, LIMITE_TIEMPO_MS);
+
+  contadorVisual = setInterval(() => {
+    segundosRestantes--;
+    Temporizador.innerHTML = segundosRestantes;
+
+    if (segundosRestantes <= 10){
+      Temporizador.style.color = "red";
+    }
+
+  }, 1000);
+
 }
 
 /**
  * Se ejecuta si el temporizador del intento llega a cero.
  */
 function tiempoDeIntentoAgotado() {
+  clearInterval(Temporizador);
   if (juegoTerminado) return; // Si el juego ya acabó, no hacer nada
 
   textoFinal.innerHTML = "Se agotó el tiempo.";
@@ -154,6 +173,7 @@ function cambiarPosicion(i, j) {
   // Si se ha completado la fila
   if (j1 === columna) {
     clearTimeout(contadorFila); // ¡Detiene el temporizador de la fila!
+    clearInterval(Temporizador);
     juegoTerminado = true; // Bloquea el teclado temporalmente
     setTimeout(() => {
       comprobarFila(); // Llama a la comprobación
@@ -247,7 +267,7 @@ function comprobarFila() {
 function finDelJuego(esVictoria) {
   juegoTerminado = true;
   clearTimeout(contadorFila); // Detiene el temporizador de la fila (por si acaso)
-  
+  clearInterval(Temporizador);
   const teclado = document.getElementById("teclado");
   teclado.classList.add("deshabilitado"); // Deshabilita el teclado visual
 
