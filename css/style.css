@@ -10,10 +10,7 @@ body {
     background: #cdcdcd;
     display: flex;
     flex-direction: column;
-    /* min-height: 100vh; */
-    padding: 0 0 20px 0;
+    min-height: 100vh; /* Descomentado o añadido: que ocupe al menos el 100% de la altura */
+    padding: 0; /* Quitamos el padding inferior que ya no es necesario */
+    /* --- FIN DEL CAMBIO --- */
 }
-
-
-/* Vista movil */
-

@@ -1,3 +1,10 @@
+/* Reset básico */
+* {
+    margin: 0; 
+    padding: 0; 
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
 :root {
   --color-nav-fondo: #181818;
   --color-nav-texto: #eaeaea;
@@ -22,6 +29,7 @@
   margin-bottom: 1rem;
 padding-left: 0;
 padding-right: 2rem; /* Sin padding */
+
 
 }
 .logo-container h1 {

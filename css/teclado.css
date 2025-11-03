@@ -1,3 +1,10 @@
+/* Reset básico */
+* {
+    margin: 0; 
+    padding: 0; 
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
 :root{
     --fondo-teclado:#3a3a3c;
     --color-tecla-letra: #565658;

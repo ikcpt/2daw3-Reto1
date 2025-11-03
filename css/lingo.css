@@ -1,6 +1,16 @@
+/* Reset básico */
+* {
+    margin: 0; 
+    padding: 0; 
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
 :root {
   --color-teclas-teclado: #ffffff;
   --color-teclas-teclado-reaccion: #cfd8e3;
+  --color-letra-acierto: #6aaa64;
+  --color-mal-colocada: #c9b458;
+  --color-fallo: #787c7e;
 }
 
 .main-content {
@@ -42,6 +52,7 @@
   margin: 20px auto; /* Centrado automático */
   padding: 0 20px; /* Espacio en los bordes */
   box-sizing: border-box;
+  flex: 1;
 }
 
 /* --- 2. La Columna del Juego --- */
@@ -101,17 +112,19 @@
     pointer-events: none;
     opacity: 0.7;
 }
-/* .tablero {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  margin: 0 auto;
 
-  margin: 0 auto;
-  gap: 8px;
+
+.Celda.acierto {
+    background-color: var(--color-letra-acierto);
+    color: white;
 }
-.Celda {
-  padding: 2rem;
-  background-color: var(--color-teclas-teclado);
-  border-radius: 1rem;
-  text-align: center;
-} */
+
+.Celda.malColocada {
+    background-color: var(--color-mal-colocada);
+    color: white;
+}
+
+.Celda.fallo {
+    background-color: var(--color-fallo);
+    color: white;
+}
