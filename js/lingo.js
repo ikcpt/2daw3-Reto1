@@ -20,7 +20,7 @@ let secreta = "";
 const Temporizador = document.getElementById("temporizador-fila");
 let tiempoInicio = 0; // Para el contador total de la partida
 let contadorFila = null; // Para el contador de cada intento
-const LIMITE_TIEMPO_MS = 2000; // Límite de 30 segundos
+const LIMITE_TIEMPO_MS = 30000; // Límite de 30 segundos
 let segundosRestantes = 0;
 let contadorVisual = null;
 
@@ -110,7 +110,7 @@ function empezarTempFila() {
 
   segundosRestantes = LIMITE_TIEMPO_MS / 1000;
   Temporizador.innerHTML = segundosRestantes;
-  
+
   contadorFila = setTimeout(() => {
     tiempoDeIntentoAgotado(); // Llama a esta función si se acaba el tiempo
   }, LIMITE_TIEMPO_MS);
@@ -119,12 +119,10 @@ function empezarTempFila() {
     segundosRestantes--;
     Temporizador.innerHTML = segundosRestantes;
 
-    if (segundosRestantes <= 10){
+    if (segundosRestantes <= 10) {
       Temporizador.style.color = "red";
     }
-
   }, 1000);
-
 }
 
 /**
@@ -166,21 +164,23 @@ function cambiarPosicion(i, j) {
 
   let teclaPulsada = document.getElementById(`Letra${i}${j}`);
   let letra = teclaPulsada.innerHTML;
-  let celdaObjetivo = document.getElementById(`celda${i1}${j1}`);
-  celdaObjetivo.innerHTML = letra;
-  j1++; // Mueve el cursor a la siguiente columna
-
-  // Si se ha completado la fila
-  if (j1 === columna) {
-    clearTimeout(contadorFila); // ¡Detiene el temporizador de la fila!
-    clearInterval(Temporizador);
-    juegoTerminado = true; // Bloquea el teclado temporalmente
-    setTimeout(() => {
-      comprobarFila(); // Llama a la comprobación
-    }, 100);
-  }
+  añadirLetra(letra);
 }
 
+function tecladoFisico(event) {
+  if (juegoTerminado) return;
+  const tecla = event.key;
+
+  if (tecla === "Backspace") {
+    borrarLetra();
+    return;
+  }
+
+  if (/^[a-zA-ZñÑ]$/.test(tecla)) {
+    añadirLetra(tecla.toUpperCase());
+    return;
+  }
+}
 
 function seleccionarCelda(i, j) {
   if (juegoTerminado) {
@@ -196,6 +196,34 @@ function seleccionarCelda(i, j) {
   celda.innerHTML = ""; // Borra la letra
 
   j1 = j; // Mueve el cursor (j1) a la columna seleccionada
+}
+
+function añadirLetra(letra) {
+  if (juegoTerminado) return;
+  if (j1 >= columna) {
+    return;
+  }
+
+  let celdaObjetivo = document.getElementById(`celda${i1}${j1}`);
+  celdaObjetivo.innerHTML = letra.toUpperCase();
+  j1++;
+  if (j1 === columna) {
+    clearTimeout(contadorFila);
+    clearInterval(contadorVisual);
+    juegoTerminado = true;
+    setTimeout(() => {
+      comprobarFila();
+    }, 100);
+  }
+}
+
+function borrarLetra() {
+  if (juegoTerminado) return;
+  if (j1 <= 0) return;
+
+  j1--;
+  let celdaObjetivo = document.getElementById(`celda${i1}${j1}`);
+  celdaObjetivo.innerHTML = "";
 }
 
 /**
@@ -233,9 +261,15 @@ function comprobarFila() {
   // Aplicar estilos con animación
   for (let j = 0; j < columna; j++) {
     const celda = document.getElementById(`celda${i1}${j}`);
+    const letra = palabraUsuario[j];
+    const estado = estados[j];
+
     setTimeout(() => {
-      celda.classList.add(estados[j]);
-    }, j * 300); // Aplica estilo cada 300ms
+      celda.classList.add(estado);
+    }, j * 300);
+
+    // Actualizamos el teclado (esto se hace al instante)
+    actualizarTeclado(letra, estado);
   }
 
   const duracionTotalAnimacion = (columna - 1) * 300 + 500; // Espera a que termine la animación
@@ -246,7 +280,7 @@ function comprobarFila() {
       finDelJuego(true);
       return;
     }
-    
+
     // Comprobar si ha perdido (última fila)
     if (i1 === fila - 1) {
       finDelJuego(false);
@@ -261,9 +295,39 @@ function comprobarFila() {
   }, duracionTotalAnimacion);
 }
 
-/**
- * Finaliza la partida, mostrando el mensaje de victoria o derrota.
- */
+function actualizarTeclado(letra, estado) {
+  let teclaElement = null;
+  for (let i = 0; i < teclas.length; i++) {
+    for (let j = 0; j < teclas[i].length; j++) {
+      if (teclas[i][j] === letra.toUpperCase()) {
+        teclaElement = document.getElementById(`Letra${i}${j}`);
+        break;
+      }
+    }
+    if (teclaElement) break;
+  }
+
+  if (!teclaElement) return;
+
+  if (estado === "acierto") {
+    teclaElement.classList.remove("malColocada");
+    teclaElement.classList.remove("fallo");
+    teclaElement.classList.add("acierto");
+  } else if (estado === "malColocada") {
+    if (!teclaElement.classList.contains("acierto")) {
+      teclaElement.classList.remove("fallo");
+      teclaElement.classList.add("malColocada");
+    }
+  } else if (estado === "fallo") {
+    if (
+      !teclaElement.classList.contains("acierto") &&
+      !teclaElement.classList.contains("malColocada")
+    ) {
+      teclaElement.classList.add("fallo");
+    }
+  }
+}
+
 function finDelJuego(esVictoria) {
   juegoTerminado = true;
   clearTimeout(contadorFila); // Detiene el temporizador de la fila (por si acaso)
@@ -311,4 +375,6 @@ document.addEventListener("DOMContentLoaded", () => {
   empezarContadorTiempo();
   //Iniciamos el contador de la primera fila
   empezarTempFila();
+  //Iniciar teclado fisico
+  document.addEventListener("keydown", tecladoFisico);
 });

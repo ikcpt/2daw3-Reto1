@@ -1,4 +1,5 @@
-CREATE DATABASE FI NOT EXISTS lingo_db;
+DROP DATABASE IF EXISTS lingo_db;
+CREATE DATABASE lingo_db;
 
 USE lingo_db;
 

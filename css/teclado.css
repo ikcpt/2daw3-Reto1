@@ -73,6 +73,26 @@
   border-bottom: 3px solid #444;
   
   transition: all 0.1s ease;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.tecla.acierto {
+  background-color: #6aaa64; 
+  color: white;
+  border-color: #6aaa64;
+}
+
+.tecla.malColocada {
+  background-color: #c9b458; 
+  color: white;
+  border-color: #c9b458;
+}
+
+.tecla.fallo {
+  background-color: #787c7e; 
+  color: white;
+  border-color: #787c7e;
+  opacity: 0.8; 
 }
 
 .tecla:hover {

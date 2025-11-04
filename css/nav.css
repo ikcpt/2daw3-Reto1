@@ -8,10 +8,6 @@
 :root {
   --color-nav-fondo: #181818;
   --color-nav-texto: #eaeaea;
-  --color-nav-btn-principal: #538d4e;
-  --color-nav-btn-principal-hover: #6aaa64;
-  --color-nav-btn-secondario: #3a3a3c;
-  --color-nav-btn-secondario-hover: #505053;
   --color-activo: #c9b458;
 }
 
@@ -74,7 +70,7 @@ padding-right: 2rem; /* Sin padding */
 }
 
 .nav-links a:hover {
-  color: var(--color-btn-primary-hover);
+  color: var(--color-activo);
 }
 
 .nav-links a.activo {
