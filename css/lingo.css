@@ -129,4 +129,26 @@
     color: white;
 }
 
+.Juego-header {
+  min-height: 30px;
+  width: 100%;
+  max-width: 500px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+#textoFinal {
+  text-align: left;
+  
+}
+
+#contador-general {
+  font-size: 1.6em;
+  font-weight: 600;
+  color: #3a3a3c;
+  text-align: center;
+  margin-bottom: 5px;
+}
 

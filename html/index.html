@@ -26,16 +26,18 @@
     </nav>
     <div class="contenedor-juego">
       <div class="Juego-columna">
+        <div id="textoFinal" class="textoFinal"></div>
+        <div id="contador-general" class="contador">00:00</div>
         <div id="tabla"></div>
         <div id="teclado"></div>
-
-        <div id="textoFinal" class="textoFinal"></div>
-        <div id="temporizador-fila" class="contador"></div>
       </div>
 
       <section class="aside">
         <ul class="instrucciones">
-          <li>Tienes 30 segundos por cada fila para escribir una palabra.</li>
+          <li>
+            Tienes <span id="temporizador-fila"></span> segundos por cada fila
+            para escribir una palabra.
+          </li>
           <li><span id="verde">Verde</span> = Letra correcta.</li>
           <li><span id="amarilla">Amarillo</span> = Letra mal colocada.</li>
           <li><span id="gris">Gris</span> = Letra incorrecta.</li>
@@ -44,7 +46,7 @@
     </div>
 
     <footer class="footer">
-      <p>Footer</p>
+      <p>© 2025 Lingo. Todos los derechos reservados.</p>
     </footer>
 
     <script src="../js/lingo.js"></script>

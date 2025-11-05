@@ -18,8 +18,10 @@ let secreta = "";
 
 // --- Variables para temporizadores ---
 const Temporizador = document.getElementById("temporizador-fila");
+const temporizadorGeneral = document.getElementById("contador-general");
 let tiempoInicio = 0; // Para el contador total de la partida
 let contadorFila = null; // Para el contador de cada intento
+let contadorGeneral = null;
 const LIMITE_TIEMPO_MS = 30000; // Límite de 30 segundos
 let segundosRestantes = 0;
 let contadorVisual = null;
@@ -73,11 +75,25 @@ teclado.innerHTML = pHTML;
 // --- FUNCIONES DE TEMPORIZADORES ---
 // -----------------------------------------------------------------
 
+function formatearTiempo(segundos) {
+  const minutos = Math.floor(segundos / 60);
+  const seg = segundos % 60;
+  const minutosStr = minutos.toString().padStart(2, '0');
+  const segStr = seg.toString().padStart(2, '0');
+  return `${minutosStr}:${segStr}`;
+}
 /**
  * Inicia el contador de tiempo total de la partida.
  */
 function empezarContadorTiempo() {
   tiempoInicio = Date.now();
+  temporizadorGeneral.innerHTML = "00:00";
+  clearInterval(contadorGeneral);
+  contadorGeneral = setInterval(() => {
+    const segundosPasados = Date.now() - tiempoInicio;
+    const totalSegundos = Math.floor(segundosPasados / 1000);
+    temporizadorGeneral.innerHTML = formatearTiempo(totalSegundos);
+  }, 1000);
 }
 
 /**
@@ -114,7 +130,7 @@ function empezarTempFila() {
   contadorFila = setTimeout(() => {
     tiempoDeIntentoAgotado(); // Llama a esta función si se acaba el tiempo
   }, LIMITE_TIEMPO_MS);
-
+  Temporizador.style.color = "white";
   contadorVisual = setInterval(() => {
     segundosRestantes--;
     Temporizador.innerHTML = segundosRestantes;
@@ -129,7 +145,7 @@ function empezarTempFila() {
  * Se ejecuta si el temporizador del intento llega a cero.
  */
 function tiempoDeIntentoAgotado() {
-  clearInterval(Temporizador);
+  clearInterval(contadorVisual);
   if (juegoTerminado) return; // Si el juego ya acabó, no hacer nada
 
   textoFinal.innerHTML = "Se agotó el tiempo.";
@@ -331,7 +347,8 @@ function actualizarTeclado(letra, estado) {
 function finDelJuego(esVictoria) {
   juegoTerminado = true;
   clearTimeout(contadorFila); // Detiene el temporizador de la fila (por si acaso)
-  clearInterval(Temporizador);
+  clearInterval(contadorVisual);
+  clearInterval(contadorGeneral);
   const teclado = document.getElementById("teclado");
   teclado.classList.add("deshabilitado"); // Deshabilita el teclado visual
 
