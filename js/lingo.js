@@ -10,6 +10,7 @@ let columna = 5;
 const contenedor = document.getElementById("tabla");
 const teclado = document.getElementById("teclado");
 let textoFinal = document.getElementById("textoFinal"); // Lo muevo aquí desde finDelJuego para que sea global
+let textoVictoriaDerrota = document.getElementById("textoW/L");
 // --- Estado del juego ---
 let i1 = 0; // Fila actual
 let j1 = 0; // Columna actual
@@ -78,8 +79,8 @@ teclado.innerHTML = pHTML;
 function formatearTiempo(segundos) {
   const minutos = Math.floor(segundos / 60);
   const seg = segundos % 60;
-  const minutosStr = minutos.toString().padStart(2, '0');
-  const segStr = seg.toString().padStart(2, '0');
+  const minutosStr = minutos.toString().padStart(2, "0");
+  const segStr = seg.toString().padStart(2, "0");
   return `${minutosStr}:${segStr}`;
 }
 /**
@@ -147,11 +148,15 @@ function empezarTempFila() {
 function tiempoDeIntentoAgotado() {
   clearInterval(contadorVisual);
   if (juegoTerminado) return; // Si el juego ya acabó, no hacer nada
-
+  textoFinal.classList.add("aviso");
   textoFinal.innerHTML = "Se agotó el tiempo.";
 
+  setTimeout(() => {
+    textoFinal.innerHTML = "";
+    textoFinal.classList.remove("aviso");
+  }, 1000);
+  //Si no es el ultimo intento que le queda, pasa a la siguiente fila
   if (i1 === fila - 1) {
-    // Si era el último intento
     finDelJuego(false);
     return;
   }
@@ -352,11 +357,12 @@ function finDelJuego(esVictoria) {
   const teclado = document.getElementById("teclado");
   teclado.classList.add("deshabilitado"); // Deshabilita el teclado visual
 
+  textoFinal.classList.remove("aviso");
   if (esVictoria) {
-    textoFinal.innerHTML = "Has ganado, Felicidades!!";
+    textoVictoriaDerrota.innerHTML = "Has ganado, Felicidades!!";
     tiempoFinalUsuario(); // Calcula el tiempo total
   } else {
-    textoFinal.innerHTML = `Has perdido, vuelve a intentarlo. La palabra secreta era ${secreta}`;
+    textoVictoriaDerrota.innerHTML = `Has perdido, vuelve a intentarlo. La palabra secreta era ${secreta}`;
   }
 }
 
