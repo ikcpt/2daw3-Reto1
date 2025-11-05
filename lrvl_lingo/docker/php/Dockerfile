@@ -12,7 +12,11 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/* \
     # Habilita las extensiones necesarias para Laravel
     && docker-php-ext-install pdo pdo_mysql zip exif pcntl gd
+RUN apt-get update && apt-get install -y curl gnupg
 
+RUN curl -sL https://deb.nodesource.com/setup_lts.x | bash -
+
+RUN apt-get install -y nodejs
 # 2. Instalar Composer globalmente
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
