@@ -14,7 +14,7 @@ route::get('/palabrasBlade', [PalabraController::class, 'indexBlade'])->name('pa
 //Route::get('/palabrasRandom/', [PalabraController::class, indexRandom'])->name('palabras.indexRandomw');
 
 //Ruta que devuelve de la tabla 'palabras' la cantidad de palabras aleatorias solicitada por URL y sino, devuelve 5 palabras
-Route::get('/palabrasRandom/{cantidad?}', [PalabraController::class, 'indexRandom'])->name('palabras.indexRandomw');
+Route::get('/palabrasRandom/{cantidad}', [PalabraController::class, 'indexRandom'])->name('palabras.indexRandomw');
 
 //Ruta que verifica si la palabra dada en la ruta existe en la tabla 'palabras' y devuelve json
 Route::get('/verificarPalabra/{palabra}', [PalabraController::class, 'verificarPalabra'])
