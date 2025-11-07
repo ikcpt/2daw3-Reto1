@@ -1,0 +1,161 @@
+/* --- Reseteo y Estilos Base --- */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: #e0e0e0; /* Gris claro de fondo de tu app */
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    color: #f5f5f5; /* Texto claro por defecto */
+}
+
+/* --- Contenedor Principal (para login, registro y bienvenida) --- */
+.auth-container {
+    background-color: #4a4a4a; /* Gris oscuro del panel de info y teclado */
+    padding: 2rem 2.5rem;
+    border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 420px;
+    box-sizing: border-box;
+}
+
+h2 {
+    text-align: center;
+    color: #ffffff;
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+}
+
+/* --- Estilos de Formularios (Login y Registro) --- */
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #f5f5f5;
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="password"] {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #606060;
+    background-color: #606060; /* Gris de las teclas no pulsadas */
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 1rem;
+    color: #ffffff;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #6aaa64; /* Verde de letra correcta */
+    box-shadow: 0 0 0 3px rgba(106, 170, 100, 0.3);
+}
+
+/* Checkbox "Recordarme" */
+.form-group-remember {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+.form-group-remember input {
+    margin-right: 0.5rem;
+}
+.form-group-remember span {
+    font-size: 0.9rem;
+    color: #e0e0e0;
+}
+
+/* Mensajes de Error */
+.error-message {
+    color: #e3342f; /* Rojo de error estándar */
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+    display: block;
+}
+
+/* Pie de Formulario (enlaces) */
+.form-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1.5rem;
+}
+
+.form-footer a {
+    color: #c9b458; /* Amarillo de letra mal colocada */
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.form-footer a:hover {
+    text-decoration: underline;
+}
+
+
+/* --- Estilos de Botones --- */
+.btn {
+    display: block;
+    width: 100%;
+    background-color: #6aaa64; /* Verde de letra correcta */
+    color: white;
+    border: none;
+    padding: 0.85rem 1.5rem;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+}
+
+.btn:hover {
+    background-color: #5a9a54; /* Verde más oscuro */
+}
+
+
+/* --- Estilos Específicos Vista "Welcome" --- */
+.welcome-container {
+    text-align: center;
+}
+
+.welcome-container p {
+    font-size: 1.1rem;
+    color: #e0e0e0;
+    margin-bottom: 2rem;
+}
+
+.button-group {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem; /* Espacio entre botones */
+}
+
+/* Botón Primario (Verde, ya definido arriba) */
+a.btn.btn-primary {
+    background-color: #6aaa64;
+    color: white;
+}
+a.btn.btn-primary:hover {
+    background-color: #5a9a54;
+}
+
+/* Botón Secundario (Amarillo) */
+a.btn.btn-secondary {
+    background-color: #c9b458; /* Amarillo */
+    color: #333; /* Texto oscuro para mejor contraste en amarillo */
+}
+a.btn.btn-secondary:hover {
+    background-color: #b9a448; /* Amarillo más oscuro */
+}

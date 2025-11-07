@@ -1,0 +1,157 @@
+/* Reset básico */
+* {
+    margin: 0; 
+    padding: 0; 
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+:root {
+  --color-nav-fondo: #181818;
+  --color-nav-texto: #eaeaea;
+  --color-nav-btn-principal: #538d4e;
+  --color-nav-btn-principal-hover: #6aaa64;
+  --color-nav-btn-secondario: #3a3a3c;
+  --color-nav-btn-secondario-hover: #505053;
+  --color-activo: #c9b458;
+  --color-teclas-teclado: #ffffff;
+  --color-teclas-teclado-reaccion: #cfd8e3;
+  --color-letra-correcta: #538d4e;
+  --color-letra-mal-colocada: #c9af3a;
+  --color-letra-incorrecta: rgb(128, 128, 128);
+}
+@media (max-width: 700px) {
+  body {
+    box-sizing: border-box; /* Importante para que el padding funcione bien */
+    overflow-x: hidden; /* Evita el scroll horizontal */
+    align-items: center;
+  }
+
+.tablero,
+  #teclado,
+  .aside {
+    width: 100%; 
+    max-width: none; /* Anula los max-width de escritorio */
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  #tabla td {
+    width: 60px;
+    height: 60px;
+  }
+  #tabla td img {
+    width: 35px;
+    height: 35px;
+  }
+  #teclado td {
+    width: 35px;
+    height: 35px;
+  }
+  .Celda {
+    padding: 1.5rem; /* Un poco menos que los 2rem de escritorio */
+    font-size: 1.2em;
+  }
+
+  .tecla {
+    padding: 15px 5px; /* Más bajo para que no sean tan altas */
+    font-size: 1em;
+  }
+
+  /* Quitar logo y poner texto */
+  .logo-container h1 {
+    visibility: visible;
+    display: block;
+    color: var(--color-nav-texto);
+    margin-left: 0;
+  }
+  .logo-container img {
+    display: none;
+    visibility: hidden;
+  }
+  .logo-container {
+    height: auto;
+  }
+  .navbar {
+    /* height: 6rem; */ /* -> Reemplazado por 'auto' */
+    height: auto; /* Permite que el navbar crezca verticalmente */
+    width: 100vw;
+    
+    flex-direction: column; /* Apila el logo y los enlaces */
+    justify-content: flex-start; /* Alinea todo arriba */
+    align-items: center; /* Centra el logo-container */
+    padding-bottom: 10px; /* Espacio extra debajo de los botones */
+  }
+
+  .nav-links {
+    display: flex; /* Para que los enlaces (ahora botones) se pongan en fila */
+    width: 100%; /* Ocupa todo el ancho */
+    padding: 10px 10px 0 10px; /* Espacio arriba y a los lados */
+    gap: 8px; /* Espacio entre botones */
+  }
+
+  .nav-links a {
+    /* 1. Convertir enlaces en botones */
+    flex-grow: 1; /* Hace que todos los botones ocupen el mismo espacio */
+    text-align: center;
+    text-decoration: none;
+    background-color: var(--color-nav-btn-secondario);
+    color: var(--color-nav-texto);
+    padding: 12px 5px; /* 12px alto, 5px ancho */
+    border-radius: 6px;
+    font-weight: bold;
+    transition: background-color 0.2s ease;
+    
+    /* 2. Sobrescribir el borde de 'activo' de nav.css */
+    border-bottom: none; 
+  }
+
+  .nav-links a:hover {
+    background-color: var(--color-nav-btn-secondario-hover);
+    color: var(--color-nav-texto); /* Asegura que el color de texto no cambie */
+  }
+
+  /* 3. Estilo especial para el botón activo */
+  .nav-links a.activo {
+    background-color: var(--color-activo);
+    color: var(--color-nav-fondo); /* Texto oscuro sobre fondo activo (amarillo) */
+    border-bottom: none; /* Asegura que no hay línea */
+  }
+
+.contenedor-juego {
+    /* En pantallas pequeñas, volvemos a ponerlo en columna */
+    flex-direction: column;
+    align-items: center; /* Centra todo */
+    flex: 1;
+  }
+
+  .Juego-columna {
+    width: 100%; /* Ocupa todo el ancho */
+  }
+
+  .aside {
+    width: 100%;
+    max-width: 600px; /* Que tenga el mismo ancho máx. que el teclado */
+    position: static; /* Quitamos el 'sticky' */
+  }
+
+    .aside #verde{
+        color: var(--color-letra-correcta);
+    }
+    .aside #amarilla{
+        color: var(--color-letra-mal-colocada);
+    }
+    .aside #gris{
+        color: var(--color-letra-incorrecta);
+    }
+    .instrucciones {
+    /* Quita los puntos negros de la lista */
+    list-style-type: none; 
+    
+    /* Quita el espacio extra que las listas <ul> traen por defecto */
+    padding-left: 0; 
+}
+  .footer {
+    width: 100%;
+    box-sizing: border-box;
+  }
+}

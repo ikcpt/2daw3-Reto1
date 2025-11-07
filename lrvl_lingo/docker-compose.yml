@@ -59,18 +59,18 @@ services:
     networks:
       - lingo_network
 
-  # node:
-  #     image: node:22
-  #     working_dir: /var/www/html
-  #     volumes:
-  #       - ./src:/var/www/html
-  #     ports:
-  #       - "5173:5173"
-  #     #Se instalan dependencias y pone en marcha el servicio  
-  #     command: sh -c "npm install && npm run dev -- --host"
-  #     # Conecta a la red interna
-  #     networks:
-  #       - lingo_network
+  node:
+      image: node:22
+      working_dir: /var/www/html
+      volumes:
+        - ./src:/var/www/html
+      ports:
+        - "5173:5173"
+      #Se instalan dependencias y pone en marcha el servicio  
+      command: sh -c "npm install && npm run dev -- --host"
+      # Conecta a la red interna
+      networks:
+        - lingo_network
 
 # ----------------------------------------------------
 # 4. REDES Y VOLÚMENES
