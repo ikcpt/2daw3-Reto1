@@ -23,7 +23,6 @@
         <a href="/juego">Inicio</a>
 
         @auth
-            <a href="{{ route('profile.edit') }}">Perfil</a>
             
             <a href="{{ route('ranking') }}" class="activo">Ranking</a>
 
@@ -39,7 +38,6 @@
                 </div>
             </div>
         @elseguest
-            <a href="/perfil">Perfil</a>
             <a href="{{ route('ranking') }}" class="activo">Ranking</a>
             <a href="{{ route('login') }}">Iniciar sesion</a>
         @endguest

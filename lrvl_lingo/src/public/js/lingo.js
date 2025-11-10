@@ -16,6 +16,7 @@ let contadorGeneral = null;
 const LIMITE_TIEMPO_MS = 30000;
 let segundosRestantes = 0;
 let contadorVisual = null;
+let diccionario = new Set();
 let teclas = [
   ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"],
   ["A", "S", "D", "F", "G", "H", "J", "K", "L", "Ñ"],
@@ -329,22 +330,22 @@ async function obtenerPalabraSecreta() {
   }
 }
 async function verificarPalabra(palabra) {
+  palabra.toUpperCase();
+  if (window.DICCIONARIO.includes(palabra)) {
+    return true;
+  }
     try {
-        const palabraCodificada = encodeURIComponent(palabra.toLowerCase());
-        const respuesta = await fetch(`/verificarPalabra/${palabraCodificada}`);
-        if (respuesta.status === 401) {
-            console.error("Error de autenticación. Inicia sesión para verificar.");
-            return false;
-        }
-        const data = await respuesta.json();
-        const existe = (data && (data.existe === true || data.exists === true || data.found === true));
-        return !!existe;
-    } catch (error) {
-        console.error("Error al verificar (revisa tu PalabraController):", error);
-        return false;
-    }
+    const palabraCodificada = encodeURIComponent(palabra.toLowerCase());
+    const respuesta = await fetch(`/verificarPalabra/${palabraCodificada}`);
+    const data = await respuesta.json();
+    return !!(data.existe || data.exists || data.found);
+  } catch (error) {
+    console.error("Error al verificar en el backend:", error);
+    return false;
+  }
 }
-document.addEventListener("DOMContentLoaded", () => {
+
+document.addEventListener("DOMContentLoaded", async () => {
   obtenerPalabraSecreta();
   empezarContadorTiempo();
   empezarTempFila();

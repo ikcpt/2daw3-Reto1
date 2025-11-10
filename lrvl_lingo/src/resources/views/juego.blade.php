@@ -36,7 +36,6 @@
             </button>
 
             <div class="dropdown-menu">
-                <a href="/perfil">Perfil</a>
                 <a href="/ranking">Ranking</a>
                 
                 <form method="POST" action="{{ route('logout') }}">
@@ -84,7 +83,7 @@
     <footer class="footer">
       <p>© 2025 Lingo. Todos los derechos reservados.</p>
     </footer>
-
+    <script src="{{asset('../js/diccionario.js') }}"></script>
     <script src="{{ asset('../js/lingo.js') }}"></script>
 
     </body>
