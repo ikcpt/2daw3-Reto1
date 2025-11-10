@@ -1,475 +1,352 @@
-// -----------------------------------------------------------------
-// --- VARIABLES GLOBALES ---
-// -----------------------------------------------------------------
-
-// --- Dimensiones del tablero ---
 let fila = 5;
 let columna = 5;
-
-// --- Elementos del DOM ---
 const contenedor = document.getElementById("tabla");
 const teclado = document.getElementById("teclado");
-let textoFinal = document.getElementById("textoFinal"); // Lo muevo aquí desde finDelJuego para que sea global
+let textoFinal = document.getElementById("textoFinal");
 let textoVictoriaDerrota = document.getElementById("textoW/L");
-// --- Estado del juego ---
-let i1 = 0; // Fila actual
-let j1 = 0; // Columna actual
+let i1 = 0;
+let j1 = 0;
 let juegoTerminado = false;
 let secreta = "";
-
-// --- Variables para temporizadores ---
 const Temporizador = document.getElementById("temporizador-fila");
 const temporizadorGeneral = document.getElementById("contador-general");
-let tiempoInicio = 0; // Para el contador total de la partida
-let contadorFila = null; // Para el contador de cada intento
+let tiempoInicio = 0;
+let contadorFila = null;
 let contadorGeneral = null;
-const LIMITE_TIEMPO_MS = 30000; // Límite de 30 segundos
+const LIMITE_TIEMPO_MS = 30000;
 let segundosRestantes = 0;
 let contadorVisual = null;
-
-// --- Teclas del teclado en pantalla ---
 let teclas = [
-    ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"],
-    ["A", "S", "D", "F", "G", "H", "J", "K", "L", "Ñ"],
-    ["Z", "X", "C", "V", "B", "N", "M"],
+  ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"],
+  ["A", "S", "D", "F", "G", "H", "J", "K", "L", "Ñ"],
+  ["Z", "X", "C", "V", "B", "N", "M"],
 ];
-
-// -----------------------------------------------------------------
-// --- INICIALIZACIÓN DE LA INTERFAZ (UI) ---
-// -----------------------------------------------------------------
-
-// --- Imprimir tabla en pantalla ---
 let dHTML = `<div class="main-content">`;
 dHTML += `<div class="tablero">`;
 for (let i = 0; i < fila; i++) {
-    for (let j = 0; j < columna; j++) {
-        dHTML += `<div class="Celda" id="celda${i}${j}" onclick="seleccionarCelda(${i},${j})"></div>`;
-    }
+  for (let j = 0; j < columna; j++) {
+    dHTML += `<div class="Celda" id="celda${i}${j}" onclick="seleccionarCelda(${i},${j})"></div>`;
+  }
 }
 dHTML += `</div>`;
 dHTML += `</div>`;
 contenedor.innerHTML = dHTML;
-
-// --- Imprimir teclado ---
 let pHTML = ``;
 for (let i = 0; i < teclas.length - 1; i++) {
-    pHTML += `<div class="teclado-fila fila-${i}">`;
-    for (let j = 0; j < teclas[i].length; j++) {
-        const letra = teclas[i][j];
-        pHTML += `<div id="Letra${i}${j}" class="tecla tecla-letra" onclick="cambiarPosicion(${i}, ${j})">${letra}</div>`;
-    }
-    pHTML += `</div>`;
+  pHTML += `<div class="teclado-fila fila-${i}">`;
+  for (let j = 0; j < teclas[i].length; j++) {
+    const letra = teclas[i][j];
+    pHTML += `<div id="Letra${i}${j}" class="tecla tecla-letra" onclick="cambiarPosicion(${i}, ${j})">${letra}</div>`;
+  }
+  pHTML += `</div>`;
 }
 const ultimaFilaLetras = teclas[teclas.length - 1];
 const i = teclas.length - 1;
 pHTML += `<div class="teclado-fila fila-2">`;
 pHTML += `<div></div>`;
 for (let j = 0; j < ultimaFilaLetras.length; j++) {
-    const letra = ultimaFilaLetras[j];
-    pHTML += `<div id="Letra${i}${j}" class="tecla tecla-letra" onclick="cambiarPosicion(${i}, ${j})">${letra}</div>`;
+  const letra = ultimaFilaLetras[j];
+  pHTML += `<div id="Letra${i}${j}" class="tecla tecla-letra" onclick="cambiarPosicion(${i}, ${j})">${letra}</div>`;
 }
 pHTML += `<div></div>`;
 pHTML += `</div>`;
 teclado.innerHTML = pHTML;
-
-// -----------------------------------------------------------------
-// --- FUNCIONES DE TEMPORIZADORES ---
-// -----------------------------------------------------------------
-
 function formatearTiempo(segundos) {
-    const minutos = Math.floor(segundos / 60);
-    const seg = segundos % 60;
-    const minutosStr = minutos.toString().padStart(2, "0");
-    const segStr = seg.toString().padStart(2, "0");
-    return `${minutosStr}:${segStr}`;
+  const minutos = Math.floor(segundos / 60);
+  const seg = segundos % 60;
+  const minutosStr = minutos.toString().padStart(2, "0");
+  const segStr = seg.toString().padStart(2, "0");
+  return `${minutosStr}:${segStr}`;
 }
-/**
- * Inicia el contador de tiempo total de la partida.
- */
 function empezarContadorTiempo() {
-    tiempoInicio = Date.now();
-    temporizadorGeneral.innerHTML = "00:00";
-    clearInterval(contadorGeneral);
-    contadorGeneral = setInterval(() => {
-        const segundosPasados = Date.now() - tiempoInicio;
-        const totalSegundos = Math.floor(segundosPasados / 1000);
-        temporizadorGeneral.innerHTML = formatearTiempo(totalSegundos);
-    }, 1000);
+  tiempoInicio = Date.now();
+  temporizadorGeneral.innerHTML = "00:00";
+  clearInterval(contadorGeneral);
+  contadorGeneral = setInterval(() => {
+    const segundosPasados = Date.now() - tiempoInicio;
+    const totalSegundos = Math.floor(segundosPasados / 1000);
+    temporizadorGeneral.innerHTML = formatearTiempo(totalSegundos);
+  }, 1000);
 }
-
-/**
- * Calcula y muestra el tiempo total que ha tardado el jugador.
- * Se llama al ganar la partida.
- */
 function tiempoFinalUsuario() {
-    if (tiempoInicio === 0) {
-        return 0;
-    }
-
-    const tiempoFin = Date.now();
-    const duracionMilisegundos = tiempoFin - tiempoInicio;
-    const duracionSegundos = duracionMilisegundos / 1000;
-
-    console.log(
-        `El jugador ha tardado ${duracionSegundos} segundos en acertar la palabra.`
-    );
-    tiempoInicio = 0;
-
-    return duracionSegundos;
+  if (tiempoInicio === 0) {
+    return 0;
+  }
+  const tiempoFin = Date.now();
+  const duracionMilisegundos = tiempoFin - tiempoInicio;
+  const duracionSegundos = duracionMilisegundos / 1000;
+  console.log(
+    `El jugador ha tardado ${duracionSegundos} segundos en acertar la palabra.`
+  );
+  tiempoInicio = 0;
+  return duracionSegundos;
 }
-
-/**
- * Inicia (o reinicia) el temporizador para el intento/fila actual.
- */
 function empezarTempFila() {
-    clearTimeout(contadorFila); // Limpia cualquier temporizador anterior
-    clearInterval(contadorVisual);
-
-    segundosRestantes = LIMITE_TIEMPO_MS / 1000;
+  clearTimeout(contadorFila);
+  clearInterval(contadorVisual);
+  segundosRestantes = LIMITE_TIEMPO_MS / 1000;
+  Temporizador.innerHTML = segundosRestantes;
+  contadorFila = setTimeout(() => {
+    tiempoDeIntentoAgotado();
+  }, LIMITE_TIEMPO_MS);
+  Temporizador.style.color = "white";
+  contadorVisual = setInterval(() => {
+    segundosRestantes--;
     Temporizador.innerHTML = segundosRestantes;
-
-    contadorFila = setTimeout(() => {
-        tiempoDeIntentoAgotado(); // Llama a esta función si se acaba el tiempo
-    }, LIMITE_TIEMPO_MS);
-    Temporizador.style.color = "white";
-    contadorVisual = setInterval(() => {
-        segundosRestantes--;
-        Temporizador.innerHTML = segundosRestantes;
-
-        if (segundosRestantes <= 10) {
-            Temporizador.style.color = "red";
-        }
-    }, 1000);
+    if (segundosRestantes <= 10) {
+      Temporizador.style.color = "red";
+    }
+  }, 1000);
 }
-
-/**
- * Se ejecuta si el temporizador del intento llega a cero.
- */
 function tiempoDeIntentoAgotado() {
-    clearInterval(contadorVisual);
-    if (juegoTerminado) return; // Si el juego ya acabó, no hacer nada
-    textoFinal.classList.add("aviso");
-    textoFinal.innerHTML = "Se agotó el tiempo.";
-
-    setTimeout(() => {
-        textoFinal.innerHTML = "";
-        textoFinal.classList.remove("aviso");
-    }, 1000);
-    //Si no es el ultimo intento que le queda, pasa a la siguiente fila
-    if (i1 === fila - 1) {
-        finDelJuego(false);
-        return;
-    }
-
-    // Pasa a la siguiente fila
-    i1++;
-    j1 = 0;
-    empezarTempFila(); // Reinicia el temporizador para la nueva fila
+  clearInterval(contadorVisual);
+  if (juegoTerminado) return;
+  textoFinal.classList.add("aviso");
+  textoFinal.innerHTML = "Se agotó el tiempo.";
+  setTimeout(() => {
+    textoFinal.innerHTML = "";
+    textoFinal.classList.remove("aviso");
+  }, 1000);
+  if (i1 === fila - 1) {
+    finDelJuego(false);
+    return;
+  }
+  i1++;
+  j1 = 0;
+  empezarTempFila();
 }
-
-// -----------------------------------------------------------------
-// --- FUNCIONES DE MANEJO DEL TABLERO Y JUEGO ---
-// -----------------------------------------------------------------
-
-/**
- * Se llama al pulsar una tecla del teclado en pantalla.
- * Añade la letra a la celda actual.
- */
 function cambiarPosicion(i, j) {
-    if (juegoTerminado) return; // No hacer nada si el juego terminó
-
-    if (j1 >= columna) {
-        // Si la fila ya está llena, no añadir más letras
-        return;
-    }
-
-    let teclaPulsada = document.getElementById(`Letra${i}${j}`);
-    let letra = teclaPulsada.innerHTML;
-    añadirLetra(letra);
+  if (juegoTerminado) return;
+  if (j1 >= columna) {
+    return;
+  }
+  let teclaPulsada = document.getElementById(`Letra${i}${j}`);
+  let letra = teclaPulsada.innerHTML;
+  añadirLetra(letra);
 }
-
 function tecladoFisico(event) {
-    if (juegoTerminado) return;
-    const tecla = event.key;
-
-    if (tecla === "Backspace") {
-        borrarLetra();
-        return;
-    }
-
-    // La lógica del "Enter" se ha quitado
-
-    if (/^[a-zA-ZñÑ]$/.test(tecla)) {
-        añadirLetra(tecla.toUpperCase());
-        return;
-    }
+  if (juegoTerminado) return;
+  const tecla = event.key;
+  if (tecla === "Backspace") {
+    borrarLetra();
+    return;
+  }
+  if (/^[a-zA-ZñÑ]$/.test(tecla)) {
+    añadirLetra(tecla.toUpperCase());
+    return;
+  }
 }
-
 function seleccionarCelda(i, j) {
-    if (juegoTerminado) {
-        return;
-    }
-    // Solo permite editar la fila actual (i1)
-    if (i !== i1) {
-        window.alert("Solo puedes editar la fila actual.");
-        return;
-    }
-
-    let celda = document.getElementById(`celda${i}${j}`);
-    celda.innerHTML = ""; // Borra la letra
-
-    j1 = j; // Mueve el cursor (j1) a la columna seleccionada
+  if (juegoTerminado) {
+    return;
+  }
+  if (i !== i1) {
+    window.alert("Solo puedes editar la fila actual.");
+    return;
+  }
+  let celda = document.getElementById(`celda${i}${j}`);
+  celda.innerHTML = "";
+  j1 = j;
 }
-
 function añadirLetra(letra) {
-    if (juegoTerminado) return;
-    if (j1 >= columna) {
-        return;
-    }
-
-    let celdaObjetivo = document.getElementById(`celda${i1}${j1}`);
-    celdaObjetivo.innerHTML = letra.toUpperCase();
-    j1++;
-
-    if (j1 === columna) {
-        clearTimeout(contadorFila);
-        clearInterval(contadorVisual);
-        juegoTerminado = true; // Bloquea el teclado mientras se comprueba
-        setTimeout(() => {
-            comprobarFila();
-        }, 100); // Pequeño delay para que se vea la letra
-    }
-}
-
-function borrarLetra() {
-    if (juegoTerminado) return;
-    if (j1 <= 0) return;
-
-    j1--;
-    let celdaObjetivo = document.getElementById(`celda${i1}${j1}`);
-    celdaObjetivo.innerHTML = "";
-}
-
-/**
- * Comprueba la palabra introducida por el usuario contra la palabra secreta.
- * ¡¡AHORA ES ASÍNCRONA!!
- */
-async function comprobarFila() {
-    // <-- CAMBIO: AÑADIDO 'async'
-    let palabraUsuario = "";
-    for (let j = 0; j < columna; j++) {
-        const celda = document.getElementById(`celda${i1}${j}`);
-        palabraUsuario += celda.innerHTML;
-    }
-
-    // --- ¡¡NUEVO BLOQUE DE VERIFICACIÓN!! ---
-    // Llama a nuestra API de Laravel para ver si la palabra existe
-    const esValida = await verificarPalabraEnDB(palabraUsuario);
-
-    if (!esValida) {
-        // La palabra no existe en la BBDD
-        textoFinal.classList.add("aviso");
-        textoFinal.innerHTML = "Esa palabra no está en el diccionario.";
-
-        setTimeout(() => {
-            textoFinal.innerHTML = "";
-            textoFinal.classList.remove("aviso");
-        }, 2000);
-
-        juegoTerminado = false; // Permite al usuario seguir editando la fila
-        return; // No continúa con la comprobación
-    }
-    // --- FIN DEL NUEVO BLOQUE ---
-
-    // Si la palabra es válida, continuamos como antes
+  if (juegoTerminado) return;
+  if (j1 >= columna) {
+    return;
+  }
+  let celdaObjetivo = document.getElementById(`celda${i1}${j1}`);
+  celdaObjetivo.innerHTML = letra.toUpperCase();
+  j1++;
+  if (j1 === columna) {
     clearTimeout(contadorFila);
     clearInterval(contadorVisual);
-
-    let secretaArray = secreta.split("");
-    let estados = new Array(columna).fill("fallo"); // "fallo", "acierto", "malColocada"
-
-    // 1ª pasada: Buscar aciertos (verde)
-    for (let j = 0; j < columna; j++) {
-        if (palabraUsuario[j] === secretaArray[j]) {
-            estados[j] = "acierto";
-            secretaArray[j] = null; // Marcar para no usarla en la 2ª pasada
-        }
-    }
-
-    // 2ª pasada: Buscar mal colocadas (amarillo)
-    for (let j = 0; j < columna; j++) {
-        if (estados[j] !== "acierto") {
-            let posEnSecreta = secretaArray.indexOf(palabraUsuario[j]);
-            if (posEnSecreta !== -1) {
-                estados[j] = "malColocada";
-                secretaArray[posEnSecreta] = null; // Marcar para no usarla más
-            }
-        }
-    }
-
-    // Aplicar estilos con animación
-    for (let j = 0; j < columna; j++) {
-        const celda = document.getElementById(`celda${i1}${j}`);
-        const letra = palabraUsuario[j];
-        const estado = estados[j];
-
-        setTimeout(() => {
-            celda.classList.add(estado);
-        }, j * 300);
-
-        // Actualizamos el teclado (esto se hace al instante)
-        actualizarTeclado(letra, estado);
-    }
-
-    const duracionTotalAnimacion = (columna - 1) * 300 + 500; // Espera a que termine la animación
-
-    setTimeout(() => {
-        // Comprobar si ha ganado
-        if (palabraUsuario === secreta) {
-            finDelJuego(true);
-            return;
-        }
-
-        // Comprobar si ha perdido (última fila)
-        if (i1 === fila - 1) {
-            finDelJuego(false);
-            return;
-        }
-
-        // Pasar a la siguiente fila
-        i1++;
-        j1 = 0;
-        juegoTerminado = false; // Desbloquea el teclado para la siguiente fila
-        empezarTempFila(); // Inicia el temporizador para la nueva fila
-    }, duracionTotalAnimacion);
-}
-
-function actualizarTeclado(letra, estado) {
-    let teclaElement = null;
-    for (let i = 0; i < teclas.length; i++) {
-        for (let j = 0; j < teclas[i].length; j++) {
-            if (teclas[i][j] === letra.toUpperCase()) {
-                teclaElement = document.getElementById(`Letra${i}${j}`);
-                break;
-            }
-        }
-        if (teclaElement) break;
-    }
-
-    if (!teclaElement) return;
-
-    if (estado === "acierto") {
-        teclaElement.classList.remove("malColocada");
-        teclaElement.classList.remove("fallo");
-        teclaElement.classList.add("acierto");
-    } else if (estado === "malColocada") {
-        if (!teclaElement.classList.contains("acierto")) {
-            teclaElement.classList.remove("fallo");
-            teclaElement.classList.add("malColocada");
-        }
-    } else if (estado === "fallo") {
-        if (
-            !teclaElement.classList.contains("acierto") &&
-            !teclaElement.classList.contains("malColocada")
-        ) {
-            teclaElement.classList.add("fallo");
-        }
-    }
-}
-
-function finDelJuego(esVictoria) {
     juegoTerminado = true;
-    clearTimeout(contadorFila); // Detiene el temporizador de la fila (por si acaso)
-    clearInterval(contadorVisual);
-    clearInterval(contadorGeneral);
-    const teclado = document.getElementById("teclado");
-    teclado.classList.add("deshabilitado"); // Deshabilita el teclado visual
-
-    textoFinal.classList.remove("aviso");
-    if (esVictoria) {
-        textoVictoriaDerrota.innerHTML = "Has ganado, Felicidades!!";
-        tiempoFinalUsuario(); // Calcula el tiempo total
-    } else {
-        textoVictoriaDerrota.innerHTML = `Has perdido, vuelve a intentarlo. La palabra secreta era ${secreta}`;
-    }
+    setTimeout(() => {
+      comprobarFila();
+    }, 100);
+  }
 }
+function borrarLetra() {
+  if (juegoTerminado) return;
+  if (j1 <= 0) return;
+  j1--;
+  let celdaObjetivo = document.getElementById(`celda${i1}${j1}`);
+  celdaObjetivo.innerHTML = "";
+}
+async function comprobarFila() {
+  let palabraUsuario = "";
+  for (let j = 0; j < columna; j++) {
+    const celda = document.getElementById(`celda${i1}${j}`);
+    palabraUsuario += celda.innerHTML;
+  }
+  const esValida = await verificarPalabra(palabraUsuario);
 
-// -----------------------------------------------------------------
-// --- FUNCIONES DE API ---
-// -----------------------------------------------------------------
+  if (!esValida) {
+    textoFinal.classList.add("aviso");
+    textoFinal.innerHTML = "Palabra no válida. Pierdes el turno.";
+    
+    setTimeout(() => {
+      textoFinal.innerHTML = "";
+      textoFinal.classList.remove("aviso");
+      
+      if (i1 === fila - 1) {
+        finDelJuego(false);
+        return;
+      }
 
-/**
- * Obtiene la palabra secreta desde la API.
- * ¡¡MODIFICADA PARA USAR LARAVEL!!
- */
+      i1++;
+      j1 = 0;
+      juegoTerminado = false;
+      
+      // --- ¡¡ARREGLO!! ---
+      // Esta es la línea que faltaba para reiniciar el timer
+      empezarTempFila(); 
+      
+    }, 2000);
+
+    return; 
+  }
+
+  clearTimeout(contadorFila);
+  clearInterval(contadorVisual);
+  let secretaArray = secreta.split("");
+  let estados = new Array(columna).fill("fallo");
+  for (let j = 0; j < columna; j++) {
+    if (palabraUsuario[j] === secretaArray[j]) {
+      estados[j] = "acierto";
+      secretaArray[j] = null;
+    }
+  }
+  for (let j = 0; j < columna; j++) {
+    if (estados[j] !== "acierto") {
+      let posEnSecreta = secretaArray.indexOf(palabraUsuario[j]);
+      if (posEnSecreta !== -1) {
+        estados[j] = "malColocada";
+        secretaArray[posEnSecreta] = null;
+      }
+    }
+  }
+  for (let j = 0; j < columna; j++) {
+    const celda = document.getElementById(`celda${i1}${j}`);
+    const letra = palabraUsuario[j];
+    const estado = estados[j];
+    setTimeout(() => {
+      celda.classList.add(estado);
+    }, j * 300);
+    actualizarTeclado(letra, estado);
+  }
+  const duracionTotalAnimacion = (columna - 1) * 300 + 500;
+  setTimeout(() => {
+    if (palabraUsuario === secreta) {
+      const tiempoEnSegundos = tiempoFinalUsuario();
+      const puntuacionBase = 1000 - (tiempoEnSegundos * 10);
+      const puntuacionFinal = Math.max(100, Math.floor(puntuacionBase));
+      console.log(`Puntuación a enviar: ${puntuacionFinal}`);
+      const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+      fetch('/actualizar-puntuacion', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-TOKEN': csrfToken
+        },
+        body: JSON.stringify({ score: puntuacionFinal })
+      })
+      .then(respuesta => {
+        if (respuesta.ok) {
+          console.log('Puntuación guardada en la base de datos.');
+        } else {
+          console.error('Error al guardar la puntuación.');
+        }
+      })
+      .catch(error => console.error('Error de red:', error));
+      finDelJuego(true);
+      return;
+    }
+    if (i1 === fila - 1) {
+      finDelJuego(false);
+      return;
+    }
+    i1++;
+    j1 = 0;
+    juegoTerminado = false;
+    empezarTempFila();
+  }, duracionTotalAnimacion);
+}
+function actualizarTeclado(letra, estado) {
+  let teclaElement = null;
+  for (let i = 0; i < teclas.length; i++) {
+    for (let j = 0; j < teclas[i].length; j++) {
+      if (teclas[i][j] === letra.toUpperCase()) {
+        teclaElement = document.getElementById(`Letra${i}${j}`);
+        break;
+      }
+    }
+    if (teclaElement) break;
+  }
+  if (!teclaElement) return;
+  if (estado === "acierto") {
+    teclaElement.classList.remove("malColocada");
+    teclaElement.classList.remove("fallo");
+    teclaElement.classList.add("acierto");
+  } else if (estado === "malColocada") {
+    if (!teclaElement.classList.contains("acierto")) {
+      teclaElement.classList.remove("fallo");
+      teclaElement.classList.add("malColocada");
+    }
+  } else if (estado === "fallo") {
+    if (
+      !teclaElement.classList.contains("acierto") &&
+      !teclaElement.classList.contains("malColocada")
+    ) {
+      teclaElement.classList.add("fallo");
+    }
+  }
+}
+function finDelJuego(esVictoria) {
+  juegoTerminado = true;
+  clearTimeout(contadorFila);
+  clearInterval(contadorVisual);
+  clearInterval(contadorGeneral);
+  const teclado = document.getElementById("teclado");
+  teclado.classList.add("deshabilitado");
+  textoFinal.classList.remove("aviso");
+  if (esVictoria) {
+    textoVictoriaDerrota.innerHTML = "Has ganado, Felicidades!!";
+    tiempoFinalUsuario();
+  } else {
+    textoVictoriaDerrota.innerHTML = `Has perdido, vuelve a intentarlo. La palabra secreta era ${secreta}`;
+  }
+}
 async function obtenerPalabraSecreta() {
-    try {
-        const respuesta = await fetch("/palabrasRandom/1"); // Llama a tu ruta
-
-        // --- NUEVO CÓDIGO DE DEPURACIÓN ---
-        // Vamos a leer la respuesta como TEXTO, no como JSON
-        const textoRespuesta = await respuesta.text();
-
-        // Mostramos en consola QUÉ nos está enviando el servidor
-        console.log("Respuesta del servidor (antes de JSON):", textoRespuesta);
-        // --- FIN DE DEPURACIÓN ---
-
-        // Ahora intentamos convertir ese texto en JSON
-        // Esto fallará de nuevo, ¡pero el log de arriba nos dirá por qué!
-        const contenido = JSON.parse(textoRespuesta);
-
-        secreta = contenido[0].toUpperCase();
-
-        console.log("La palabra secreta es: ", secreta);
-    } catch (error) {
-        // El error 'JSON.parse' volverá a salir aquí, es normal
-        console.error("Error al obtener la palabra: ", error);
-    }
+  try {
+    const respuesta = await fetch("/palabrasRandom/1");
+    const textoRespuesta = await respuesta.text();
+    console.log("Respuesta del servidor (antes de JSON):", textoRespuesta);
+    const contenido = JSON.parse(textoRespuesta);
+    secreta = contenido[0].toUpperCase();
+    console.log("La palabra secreta es: ", secreta);
+  } catch (error) {
+    console.error("Error al obtener la palabra: ", error);
+  }
 }
-
-/**
- * ¡¡NUEVA FUNCIÓN!!
- * Verifica si una palabra existe en nuestra BBDD de Laravel
- */
-async function verificarPalabraEnDB(palabra) {
+async function verificarPalabra(palabra) {
     try {
-        // Llamamos a nuestra ruta de Laravel
-        const respuesta = await fetch(`/verificarPalabra/${palabra}`);
-
+        const palabraCodificada = encodeURIComponent(palabra.toLowerCase());
+        const respuesta = await fetch(`/verificarPalabra/${palabraCodificada}`);
         if (respuesta.status === 401) {
-            // Esto pasa si el usuario no está logueado, por el middleware
-            console.error(
-                "Error de autenticación. Inicia sesión para verificar palabras."
-            );
+            console.error("Error de autenticación. Inicia sesión para verificar.");
             return false;
         }
-
         const data = await respuesta.json();
-
-        // Asumo que tu controlador devuelve algo como {"existe": true} o {"existe": false}
-        // Si devuelve 1 o 0, usa 'return data === 1;'
-        // Si devuelve la palabra o null, usa 'return data !== null;'
-        return data.existe;
+        const existe = (data && (data.existe === true || data.exists === true || data.found === true));
+        return !!existe;
     } catch (error) {
-        console.error("Error al verificar la palabra:", error);
-        return false; // Si hay un error, decimos que no es válida
+        console.error("Error al verificar (revisa tu PalabraController):", error);
+        return false;
     }
 }
-
-// -----------------------------------------------------------------
-// --- INICIAR CUANDO CARGUE LA PÁGINA ---
-// -----------------------------------------------------------------
-
-/**
- * Se ejecuta cuando el DOM se ha cargado completamente.
- */
 document.addEventListener("DOMContentLoaded", () => {
-    //Iniciamos la funcion para obtener la palabra secreta
-    obtenerPalabraSecreta();
-    //Iniciamos el contador para saber cuando tarda el usuario en adivinar la palabra
-    empezarContadorTiempo();
-    //Iniciamos el contador de la primera fila
-    empezarTempFila();
-    //Iniciar teclado fisico
-    document.addEventListener("keydown", tecladoFisico);
+  obtenerPalabraSecreta();
+  empezarContadorTiempo();
+  empezarTempFila();
+  document.addEventListener("keydown", tecladoFisico);
 });

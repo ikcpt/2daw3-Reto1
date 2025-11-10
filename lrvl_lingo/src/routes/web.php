@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PalabraController;
+use App\Http\Controllers\RankingController;
 
 
 
@@ -18,7 +19,7 @@ Route::get('/palabrasRandom/{cantidad}', [PalabraController::class, 'indexRandom
 
 //Ruta que verifica si la palabra dada en la ruta existe en la tabla 'palabras' y devuelve json
 Route::get('/verificarPalabra/{palabra}', [PalabraController::class, 'verificarPalabra'])
-         ->middleware(['auth', 'verified'])
+        //  ->middleware(['auth'])
          ->name('palabras.verificarPalabra');
 
 Route::get('/dashboard', function () {
@@ -37,15 +38,18 @@ Route::get('/perfil', function () {
     return view('perfil'); // Muestra perfil.blade.php en /perfil
 });
 
-Route::get('/estadisticas', function () {
-    return view('estadisticas'); // Muestra estadisticas.blade.php en /estadisticas
-});
 
+Route::get('/ranking', [RankingController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('ranking');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+Route::post('/actualizar-puntuacion', [App\Http\Controllers\RankingController::class, 'actualizarPuntuacion'])
+    ->middleware('auth');
 
 require __DIR__.'/auth.php';

@@ -1,96 +1,72 @@
 <?php
 
 namespace App\Http\Controllers;
-use Illuminate\Http\Request;
-use App\Models\Palabra; 
-use Illuminate\Http\JsonResponse;
 
+use Illuminate\Http\Request;
+use App\Models\Palabra;
+use Illuminate\Support\Facades\Http;
 
 class PalabraController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        $palabras = Palabra::all();
-        return view('palabras.index', ['palabras' => $palabras]);
-    }
-
-    public function indexStyled() {
-        $palabras = Palabra::all();
-        return view('palabras.indexStyled', ['palabras' => $palabras]);
-    }
-
-    public function indexBlade() {
-        $palabras = Palabra::all();
-        return view('palabras.indexBlade', ['palabras' => $palabras]);
-    }
-
-    public function indexRandom($cantidad = 1)
-    {
-    $palabras = Palabra::inRandomOrder()->take($cantidad)->get();
+ public function indexRandom($cantidad = 1) {
+    $palabrasEncontradas = [];
+    for ($i = 0; $i < $cantidad; $i++) {
         
-    return view('palabras.index', ['palabras' => $palabras ]);
-    }
+        $palabraValida = null;
+        while ($palabraValida === null) {
+            
+            $palabraAleatoria = Palabra::inRandomOrder()->first();
+            
+            if (!$palabraAleatoria) {
+                continue; 
+            }
+            
+            $palabraLimpia = trim($palabraAleatoria->palabra);
 
-      /**
-     * Display a listing of the resource.
-     */
-    public function verificarPalabra(String $palabra): JsonResponse
-    {
-        $existe = Palabra::where('palabra',$palabra)->exists();
-               
-        return response()->json(['palabra_buscada' => $palabra,'existe' => $existe]);
-        //return view('palabras.verificar', ['existe' => $existe]);
-    }
+            if (mb_strlen($palabraLimpia) == 5) {
+                
+                $respuestaJson = $this->verificarPalabra($palabraLimpia);
 
+                $datosVerificacion = $respuestaJson->getData(true); 
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
+                if (isset($datosVerificacion['exists']) && $datosVerificacion['exists']) {
+                    $palabraValida = $palabraLimpia;
+                }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
+            }
+        }
+        $palabrasEncontradas[] = $palabraValida;
     }
+    
+    return response()->json($palabrasEncontradas);
+}
+public function verificarPalabra($palabra)
+{
+    try {
+        $palabraEnMinusculas = strtolower($palabra);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Palabra $palabra)
-    {
-        //
-    }
+        $response = Http::get("http://185.60.43.155:3000/api/check/{$palabraEnMinusculas}");
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Palabra $palabra)
-    {
-        //
-    }
+        if ($response->failed()) {
+            return response()->json(['existe' => false, 'exists' => false]);
+        }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Palabra $palabra)
-    {
-        //
-    }
+        $data = $response->json();
+        $exists = null;
+        if (isset($data['exists'])) {
+            $exists = (bool) $data['exists'];
+        } elseif (isset($data['existe'])) {
+            $exists = (bool) $data['existe'];
+        } elseif (isset($data['found'])) { 
+            $exists = (bool) $data['found'];
+        } else {
+            $exists = !empty($data);
+        }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Palabra $palabra)
-    {
-        //
+        return response()->json(['existe' => $exists, 'exists' => $exists, 'raw' => $data]);
+
+    } catch (\Exception $e) {
+        return response()->json(['existe' => false, 'exists' => false]);
     }
+}
 }

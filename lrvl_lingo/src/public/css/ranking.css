@@ -1,0 +1,82 @@
+/* --- Contenedor Principal --- */
+/* (Estilo basado en tu auth-style.css) */
+.ranking-container {
+    background-color: #4a4a4a; /* Gris oscuro del panel de info */
+    padding: 2rem 2.5rem;
+    border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 800px; /* Ancho máximo para la tabla */
+    margin: 2rem auto; /* Centrado entre nav y footer */
+    color: #f5f5f5; /* Texto claro */
+}
+
+.ranking-container h1 {
+    color: #ffffff;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+}
+
+/* --- Estilos de la Tabla --- */
+.ranking-table {
+    width: 100%;
+    border-collapse: collapse; /* Bordes limpios */
+    margin-top: 1rem;
+}
+
+.ranking-table th {
+    background-color: #606060; /* Gris medio (como el de las teclas) */
+    color: #ffffff;
+    padding: 0.75rem 1rem;
+    text-align: left;
+    font-size: 1rem;
+}
+
+.ranking-table td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid #606060; /* Líneas separadoras */
+}
+
+/* Filas alternas para mejor lectura */
+.ranking-table tbody tr:nth-child(even) {
+    background-color: #525252;
+}
+
+/* Estilo para la puntuación */
+.ranking-table td.puntuacion {
+    font-weight: 700;
+    color: #6aaa64; /* Verde de tu juego */
+    font-size: 1.1rem;
+    text-align: right;
+}
+
+/* --- Destacar el Top 3 (como en tu juego) --- */
+.ranking-table tbody tr:nth-child(1) td.posicion {
+    font-weight: 900;
+    color: #c9b458; /* Amarillo */
+}
+.ranking-table tbody tr:nth-child(2) td.posicion {
+    font-weight: 700;
+    color: #afb1ad;
+}
+.ranking-table tbody tr:nth-child(3) td.posicion {
+    font-weight: 700;
+    color: #cd7f32; /* Bronce */
+}
+
+
+/* --- Enlace de "Volver" --- */
+.back-link {
+    display: inline-block;
+    margin-top: 2rem;
+    color: #c9b458; /* Amarillo de tu juego */
+    text-decoration: none;
+    font-weight: 600;
+    transition: transform 0.2s ease;
+}
+
+.back-link:hover {
+    text-decoration: underline;
+    transform: translateX(-5px);
+}
