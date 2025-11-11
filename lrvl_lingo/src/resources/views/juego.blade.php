@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="{{ asset('../css/footer.css') }}" />
     <link rel="stylesheet" href="{{ asset('../css/lingo.css') }}" />
     <link rel="stylesheet" href="{{ asset('../css/vistaMovil.css') }}" />
+    <link rel="stylesheet" href="{{ asset('../css/vistaTablet.css') }}" />
     <link rel="stylesheet" href="{{ asset('../css/teclado.css') }}" />
   </head>
   <body>

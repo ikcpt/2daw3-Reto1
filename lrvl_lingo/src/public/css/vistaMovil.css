@@ -71,67 +71,66 @@
   .logo-container {
     height: auto;
   }
-  .navbar {
-    /* height: 6rem; */ /* -> Reemplazado por 'auto' */
-    height: auto; /* Permite que el navbar crezca verticalmente */
+.navbar {
     width: 100vw;
-    
-    flex-direction: column; /* Apila el logo y los enlaces */
-    justify-content: flex-start; /* Alinea todo arriba */
-    align-items: center; /* Centra el logo-container */
-    padding-bottom: 10px; /* Espacio extra debajo de los botones */
-  }
+    display: flex;
+    flex-direction: column; 
+    justify-content: center;
+    align-items: center;
+    padding: 10px 0;
+    gap: 10px;
+}
 
-  .nav-links {
-    display: flex; /* Para que los enlaces (ahora botones) se pongan en fila */
-    width: 100%; /* Ocupa todo el ancho */
-    padding: 10px 10px 0 10px; /* Espacio arriba y a los lados */
-    gap: 8px; /* Espacio entre botones */
-  }
+.nav-links {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 90%;  
+    gap: 10px;   
+}
 
-  .nav-links a {
-    /* 1. Convertir enlaces en botones */
-    flex-grow: 1; /* Hace que todos los botones ocupen el mismo espacio */
+.nav-links > a,
+.nav-links > .dropdown {
+    flex: 1;
+}
+
+.dropdown-toggle {
+    width: 100%;
+}
+
+.nav-links a,
+.dropdown-toggle {
     text-align: center;
-    text-decoration: none;
-    background-color: var(--color-nav-btn-secondario);
-    color: var(--color-nav-texto);
-    padding: 12px 5px; /* 12px alto, 5px ancho */
+    padding: 12px 5px;
     border-radius: 6px;
-    font-weight: bold;
-    transition: background-color 0.2s ease;
-    
-    /* 2. Sobrescribir el borde de 'activo' de nav.css */
-    border-bottom: none; 
-  }
+}
 
   .nav-links a:hover {
     background-color: var(--color-nav-btn-secondario-hover);
-    color: var(--color-nav-texto); /* Asegura que el color de texto no cambie */
+    color: var(--color-nav-texto); 
   }
 
-  /* 3. Estilo especial para el botón activo */
+ 
   .nav-links a.activo {
-    background-color: var(--color-activo);
-    color: var(--color-nav-fondo); /* Texto oscuro sobre fondo activo (amarillo) */
-    border-bottom: none; /* Asegura que no hay línea */
+    color: var(--color-activo); 
+    text-decoration: underline;
+    text-decoration-color: var(--color-activo);
   }
 
 .contenedor-juego {
-    /* En pantallas pequeñas, volvemos a ponerlo en columna */
     flex-direction: column;
-    align-items: center; /* Centra todo */
+    align-items: center; 
     flex: 1;
   }
 
   .Juego-columna {
-    width: 100%; /* Ocupa todo el ancho */
+    width: 100%; 
   }
 
   .aside {
     width: 100%;
-    max-width: 600px; /* Que tenga el mismo ancho máx. que el teclado */
-    position: static; /* Quitamos el 'sticky' */
+    max-width: 600px; 
+    position: static; 
   }
 
     .aside #verde{
@@ -144,10 +143,8 @@
         color: var(--color-letra-incorrecta);
     }
     .instrucciones {
-    /* Quita los puntos negros de la lista */
     list-style-type: none; 
     
-    /* Quita el espacio extra que las listas <ul> traen por defecto */
     padding-left: 0; 
 }
   .footer {
