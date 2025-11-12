@@ -149,7 +149,7 @@ function actualizarTeclado(letra, estado) {
     classes.add("fallo");
   }
 }
-function finDelJuego(esVictoria) {
+function finDelJuego(esVictoria, puntos) {
   juegoTerminado = true;
   clearTimeout(contadorFila);
   clearInterval(contadorVisual);
@@ -157,7 +157,7 @@ function finDelJuego(esVictoria) {
   teclado.classList.add("deshabilitado");
   textoFinal.classList.remove("aviso");
   if (esVictoria) {
-    textoVictoriaDerrota.innerHTML = "Has ganado, Felicidades!!";
+    textoVictoriaDerrota.innerHTML = `Has ganado ${puntos} puntos, Felicidades!!`;
     tiempoFinalUsuario();
   } else {
     textoVictoriaDerrota.innerHTML = `Has perdido, vuelve a intentarlo. La palabra secreta era ${secreta}`;
@@ -184,7 +184,7 @@ function gestionarVictoria() {
   })
   .then(respuesta => { if (!respuesta.ok) console.error("Error al guardar la puntuación."); })
   .catch(error => console.error("Error de red:", error));
-  finDelJuego(true);
+  finDelJuego(true, puntuacionFinal);
 }
 async function obtenerPalabraSecreta() {
   try {
