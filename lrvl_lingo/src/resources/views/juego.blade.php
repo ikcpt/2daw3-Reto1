@@ -26,21 +26,22 @@
         <h1>Lingo</h1>
       </div>
 <div class="nav-links">
-    
+    <!-- Boton del nav para dirigirse a la página de inicio -->
     <a href="/juego" class="activo">Inicio</a>
 
     @auth
         <div class="dropdown">
-            
+            <!-- Boton desplegable donde saldra el nombre del usuario y tendra las opciones de ir al ranking o cerrar sesion -->
             <button class="dropdown-toggle">
                 {{ auth()->user()->name }}
             </button>
-
+            <!-- Este boton nos redirije al ranking -->
             <div class="dropdown-menu">
                 <a href="/ranking">Ranking</a>
                 
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
+                    <!-- Este boton sirve para cerrar la sesion del usuario -->
                     <a href="{{ route('logout') }}"
                        onclick="event.preventDefault(); this.closest('form').submit();">
                         Cerrar sesión

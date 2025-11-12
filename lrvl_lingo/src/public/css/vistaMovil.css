@@ -21,8 +21,8 @@
 }
 @media (max-width: 700px) {
   body {
-    box-sizing: border-box; /* Importante para que el padding funcione bien */
-    overflow-x: hidden; /* Evita el scroll horizontal */
+    box-sizing: border-box; 
+    overflow-x: hidden; 
     align-items: center;
   }
 
@@ -30,7 +30,7 @@
   #teclado,
   .aside {
     width: 100%; 
-    max-width: none; /* Anula los max-width de escritorio */
+    max-width: none; 
     margin-left: auto;
     margin-right: auto;
   }
@@ -48,16 +48,15 @@
     height: 35px;
   }
   .Celda {
-    padding: 1.5rem; /* Un poco menos que los 2rem de escritorio */
+    padding: 1.5rem; 
     font-size: 1.2em;
   }
 
   .tecla {
-    padding: 15px 5px; /* Más bajo para que no sean tan altas */
+    padding: 15px 5px; 
     font-size: 1em;
   }
 
-  /* Quitar logo y poner texto */
   .logo-container h1 {
     visibility: visible;
     display: block;

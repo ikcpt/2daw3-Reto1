@@ -35,26 +35,23 @@
 
 .ranking-table td {
     padding: 0.75rem 1rem;
-    border-bottom: 1px solid #606060; /* Líneas separadoras */
+    border-bottom: 1px solid #606060;
 }
 
-/* Filas alternas para mejor lectura */
 .ranking-table tbody tr:nth-child(even) {
     background-color: #525252;
 }
 
-/* Estilo para la puntuación */
 .ranking-table td.puntuacion {
     font-weight: 700;
-    color: #6aaa64; /* Verde de tu juego */
+    color: #6aaa64;
     font-size: 1.1rem;
     text-align: right;
 }
 
-/* --- Destacar el Top 3 (como en tu juego) --- */
 .ranking-table tbody tr:nth-child(1) td.posicion {
     font-weight: 900;
-    color: #c9b458; /* Amarillo */
+    color: #c9b458;
 }
 .ranking-table tbody tr:nth-child(2) td.posicion {
     font-weight: 700;
@@ -62,15 +59,13 @@
 }
 .ranking-table tbody tr:nth-child(3) td.posicion {
     font-weight: 700;
-    color: #cd7f32; /* Bronce */
+    color: #cd7f32;
 }
 
-
-/* --- Enlace de "Volver" --- */
 .back-link {
     display: inline-block;
     margin-top: 2rem;
-    color: #c9b458; /* Amarillo de tu juego */
+    color: #c9b458;
     text-decoration: none;
     font-weight: 600;
     transition: transform 0.2s ease;

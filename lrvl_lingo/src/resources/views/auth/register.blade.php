@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro</title>
-    <link rel="stylesheet" href="{{ asset('css/auth-style.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/autenticacion.css') }}">
 </head>
 <body>
     <div class="auth-container">

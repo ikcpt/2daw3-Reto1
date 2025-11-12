@@ -1,18 +1,17 @@
-/* --- Reseteo y Estilos Base --- */
 body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    background-color: #e0e0e0; /* Gris claro de fondo de tu app */
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        Helvetica, Arial, sans-serif;
+    background-color: #e0e0e0;
     margin: 0;
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    color: #f5f5f5; /* Texto claro por defecto */
+    color: #f5f5f5;
 }
 
-/* --- Contenedor Principal (para login, registro y bienvenida) --- */
 .auth-container {
-    background-color: #4a4a4a; /* Gris oscuro del panel de info y teclado */
+    background-color: #4a4a4a;
     padding: 2rem 2.5rem;
     border-radius: 8px;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
@@ -29,7 +28,6 @@ h2 {
     font-size: 1.8rem;
 }
 
-/* --- Estilos de Formularios (Login y Registro) --- */
 .form-group {
     margin-bottom: 1rem;
 }
@@ -47,7 +45,7 @@ h2 {
     width: 100%;
     padding: 0.75rem;
     border: 1px solid #606060;
-    background-color: #606060; /* Gris de las teclas no pulsadas */
+    background-color: #606060;
     border-radius: 4px;
     box-sizing: border-box;
     font-size: 1rem;
@@ -57,11 +55,10 @@ h2 {
 
 .form-group input:focus {
     outline: none;
-    border-color: #6aaa64; /* Verde de letra correcta */
+    border-color: #6aaa64;
     box-shadow: 0 0 0 3px rgba(106, 170, 100, 0.3);
 }
 
-/* Checkbox "Recordarme" */
 .form-group-remember {
     display: flex;
     align-items: center;
@@ -75,15 +72,13 @@ h2 {
     color: #e0e0e0;
 }
 
-/* Mensajes de Error */
 .error-message {
-    color: #e3342f; /* Rojo de error estándar */
+    color: #e3342f;
     font-size: 0.875rem;
     margin-top: 0.25rem;
     display: block;
 }
 
-/* Pie de Formulario (enlaces) */
 .form-footer {
     display: flex;
     justify-content: space-between;
@@ -92,7 +87,7 @@ h2 {
 }
 
 .form-footer a {
-    color: #c9b458; /* Amarillo de letra mal colocada */
+    color: #c9b458;
     text-decoration: none;
     font-size: 0.9rem;
     font-weight: 500;
@@ -102,12 +97,10 @@ h2 {
     text-decoration: underline;
 }
 
-
-/* --- Estilos de Botones --- */
 .btn {
     display: block;
     width: 100%;
-    background-color: #6aaa64; /* Verde de letra correcta */
+    background-color: #6aaa64;
     color: white;
     border: none;
     padding: 0.85rem 1.5rem;
@@ -121,11 +114,9 @@ h2 {
 }
 
 .btn:hover {
-    background-color: #5a9a54; /* Verde más oscuro */
+    background-color: #5a9a54;
 }
 
-
-/* --- Estilos Específicos Vista "Welcome" --- */
 .welcome-container {
     text-align: center;
 }
@@ -139,16 +130,15 @@ h2 {
 .button-group {
     display: flex;
     flex-direction: column;
-    align-items: center; /* Centra horizontalmente los botones */
+    align-items: center;
     gap: 1rem;
 }
 
 .button-group .btn {
-    width: 70%; /* Ajusta el ancho de los botones */
-    max-width: 250px; /* Límite máximo opcional */
+    width: 70%;
+    max-width: 250px;
 }
 
-/* Botón Primario (Verde, ya definido arriba) */
 a.btn.btn-primary {
     background-color: #6aaa64;
     color: white;
@@ -157,11 +147,10 @@ a.btn.btn-primary:hover {
     background-color: #5a9a54;
 }
 
-/* Botón Secundario (Amarillo) */
 a.btn.btn-secondary {
-    background-color: #c9b458; /* Amarillo */
-    color: #333; /* Texto oscuro para mejor contraste en amarillo */
+    background-color: #c9b458;
+    color: #333;
 }
 a.btn.btn-secondary:hover {
-    background-color: #b9a448; /* Amarillo más oscuro */
+    background-color: #b9a448;
 }

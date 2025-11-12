@@ -4,12 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Iniciar Sesión</title>
-    <link rel="stylesheet" href="{{ asset('css/auth-style.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/autenticacion.css') }}">
 </head>
 <body>
     <div class="auth-container">
         <form method="POST" action="{{ route('login') }}">
             @csrf
+           
             <h2>Iniciar Sesión</h2>
 
             <div class="form-group">

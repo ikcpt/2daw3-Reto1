@@ -1,144 +1,130 @@
 /* Reset básico */
 * {
-    margin: 0; 
-    padding: 0; 
+    margin: 0;
+    padding: 0;
     box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 :root {
-  --color-nav-fondo: #181818;
-  --color-nav-texto: #eaeaea;
-  --color-activo: #c9b458;
+    --color-nav-fondo: #181818;
+    --color-nav-texto: #eaeaea;
+    --color-activo: #c9b458;
 }
 
 * {
-  margin: 0;
-  padding: 0;
+    margin: 0;
+    padding: 0;
 }
 
 .navbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between; 
-  /* width: 100vw; */
-  background-color: var(--color-nav-fondo);
-  margin-bottom: 1rem;
-padding-left: 0;
-padding-right: 2rem; /* Sin padding */
-
-
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--color-nav-fondo);
+    margin-bottom: 1rem;
+    padding-left: 0;
+    padding-right: 2rem;
 }
 .logo-container h1 {
     visibility: hidden;
 }
 .logo {
-  height: 5rem; /* Ocupar toda la altura del navbar */
-  margin: 0; /* Sin márgenes */
+    height: 5rem;
+    margin: 0;
 }
 
 .logo img {
-  height: 5rem;
-  width: auto;
-  object-fit: cover;
-  display: block;
+    height: 5rem;
+    width: auto;
+    object-fit: cover;
+    display: block;
 }
 
 .logo-container {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
 }
 
-
 .title {
-  color: var(--color-nav-texto);
-  font-size: 1.5rem;
-  font-weight: 700;
-  margin: 0;
+    color: var(--color-nav-texto);
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0;
 }
 
 .nav-links {
-  display: flex;
-  gap: 1rem;
+    display: flex;
+    gap: 1rem;
 }
 
 .nav-links a {
-  color: var(--color-nav-texto);
-  text-decoration: none;
-  font-weight: 500;
-  transition: color 0.2s ease;
-}
-
-.nav-links a:hover {
-  color: var(--color-activo);
-}
-
-.nav-links a.activo {
-  color: var(--color-activo);
-  border-bottom: 2px solid var(--color-activo);
-}
-
-/* Contenedor principal del dropdown */
-.dropdown {
-    position: relative; /* Clave para que el menú se posicione bien */
-    display: inline-block;
-}
-
-/* El botón que muestra el nombre de usuario */
-/* Lo estilizamos para que sea idéntico a tus .nav-links a */
-.dropdown-toggle {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-family: inherit; /* Hereda la fuente */
-    font-size: inherit; /* Hereda el tamaño */
-
-    /* Estilos copiados de tu .nav-links a */
     color: var(--color-nav-texto);
     text-decoration: none;
     font-weight: 500;
     transition: color 0.2s ease;
 }
 
-/* Hover igual que tus otros enlaces */
+.nav-links a:hover {
+    color: var(--color-activo);
+}
+
+.nav-links a.activo {
+    color: var(--color-activo);
+    border-bottom: 2px solid var(--color-activo);
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: inherit;
+    color: var(--color-nav-texto);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
 .dropdown-toggle:hover {
     color: var(--color-activo);
 }
 
-/* El menú que se despliega */
 .dropdown-menu {
-    display: none; /* Oculto por defecto */
+    display: none;
     position: absolute;
-    right: 0; /* Se alinea a la derecha */
-    top: 100%; /* Aparece justo debajo del botón */
-    background-color: var(--color-nav-fondo); /* Usa tu color de fondo */
+    right: 0;
+    top: 100%;
+    background-color: var(--color-nav-fondo);
     min-width: 160px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     border-radius: 4px;
     z-index: 100;
 }
 
-/* Muestra el menú cuando se pasa el ratón por encima del .dropdown */
 .dropdown:hover .dropdown-menu {
     display: block;
 }
 
-/* Enlaces dentro del menú */
 .dropdown-menu a {
     color: var(--color-nav-texto);
     padding: 12px 16px;
     text-decoration: none;
-    display: block; /* Ocupan todo el ancho */
+    display: block;
     font-size: 0.95rem;
 }
 
-/* El formulario de logout no debe añadir márgenes */
 .dropdown-menu form {
     margin: 0;
     padding: 0;
 }
 
 .dropdown-menu a:hover {
-    background-color: rgba(255, 255, 255, 0.05); /* Un hover sutil */
+    background-color: rgba(255, 255, 255, 0.05);
     color: var(--color-activo);
 }
