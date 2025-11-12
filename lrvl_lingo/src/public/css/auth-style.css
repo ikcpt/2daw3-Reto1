@@ -139,7 +139,13 @@ h2 {
 .button-group {
     display: flex;
     flex-direction: column;
-    gap: 1rem; /* Espacio entre botones */
+    align-items: center; /* Centra horizontalmente los botones */
+    gap: 1rem;
+}
+
+.button-group .btn {
+    width: 70%; /* Ajusta el ancho de los botones */
+    max-width: 250px; /* Límite máximo opcional */
 }
 
 /* Botón Primario (Verde, ya definido arriba) */
