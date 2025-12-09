@@ -22,9 +22,6 @@ Route::get('/verificarPalabra/{palabra}', [PalabraController::class, 'verificarP
         //  ->middleware(['auth'])
          ->name('palabras.verificarPalabra');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/juego', function () {
     return view('juego'); // Muestra index.blade.php cuando alguien visita /
